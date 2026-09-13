@@ -1,33 +1,46 @@
+@use '../../../styles/mixins' as *;
+
+/* Two-column editorial heading: the tag sits in the left rail,
+   the title and lead occupy the measure. */
 .head {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  margin-bottom: 3.2rem;
-}
+  display: grid;
+  grid-template-columns: minmax(120px, 0.8fr) 3fr;
+  gap: clamp(1rem, 4vw, 3rem);
+  align-items: start;
+  padding-top: 1.6rem;
+  margin-bottom: clamp(2.4rem, 5vw, 4rem);
+  @include rule;
 
-.head--center {
-  align-items: center;
-  text-align: center;
-
-  .head__lead {
-    margin-inline: auto;
+  @include below($bp-md) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }
 
-.head__title {
-  font-size: var(--fs-2xl);
-  font-weight: 700;
-  letter-spacing: -0.035em;
+.head__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
 
-  span {
-    /* Keeps the gradient half on its own line only when it must. */
-    white-space: nowrap;
+.head__title {
+  font-size: var(--t-2xl);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  color: var(--text);
+
+  em {
+    font-size: 1.06em;
+    /* Optical: the serif italic sits slightly low next to the sans. */
+    display: inline-block;
+    transform: translateY(0.03em);
   }
 }
 
 .head__lead {
-  max-width: 62ch;
-  font-size: var(--fs-md);
+  max-width: 56ch;
+  font-size: var(--t-md);
+  line-height: 1.7;
   color: var(--text-muted);
-  line-height: 1.72;
 }

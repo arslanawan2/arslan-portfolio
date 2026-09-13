@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,11 +10,10 @@
       content="Frontend Engineer with 3 years building production Angular applications with TypeScript, RxJS and Signals — telehealth platforms, real-time analytics dashboards and HIPAA / SOC 2 / GDPR-aligned interfaces."
     />
     <meta name="author" content="Arslan Awan" />
-    <meta name="theme-color" content="#fbfcfd" />
+    <meta name="theme-color" content="#0a0a0c" />
     <link rel="canonical" href="https://arslanawan2.github.io/arslan-portfolio/" />
 
-    <!-- Open Graph / Twitter -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="profile" />
     <meta property="og:title" content="Arslan Awan — Frontend Engineer & Angular Developer" />
     <meta
       property="og:description"
@@ -23,26 +22,25 @@
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <!-- Favicon: SVG monogram, with the .ico as the legacy fallback -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="alternate icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" href="favicon.svg" />
+    <link rel="manifest" href="site.webmanifest" />
 
     <!--
-      Applies the saved theme before first paint. Without this the
-      page would render light for a frame and then snap to dark.
+      Theme is resolved before first paint. Dark is the default:
+      only an explicit stored "light" switches the palette, so a
+      first-time visitor always lands on the dark treatment.
     -->
     <script>
       (function () {
         try {
-          var saved = localStorage.getItem('aa-theme');
-          var theme =
-            saved === 'light' || saved === 'dark'
-              ? saved
-              : window.matchMedia('(prefers-color-scheme: dark)').matches
-                ? 'dark'
-                : 'light';
-          document.documentElement.setAttribute('data-theme', theme);
-          document.documentElement.style.colorScheme = theme;
+          var t = localStorage.getItem('aa-theme') === 'light' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', t);
+          document.documentElement.style.colorScheme = t;
         } catch (e) {
-          /* storage blocked — fall back to the CSS media query */
+          /* storage blocked — the dark default in the markup stands */
         }
       })();
     </script>
@@ -50,11 +48,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Structured data for search results -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",

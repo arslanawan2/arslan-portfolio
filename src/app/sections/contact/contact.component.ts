@@ -1,19 +1,20 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { PROFILE } from '../../core/data/portfolio.data';
 import { RevealDirective } from '../../core/directives/reveal.directive';
+import { HireDialogService } from '../../shared/hire-dialog/hire-dialog.service';
 import { IconComponent } from '../../shared/icon/icon.component';
-import { SectionHeadingComponent } from '../../shared/section-heading/section-heading.component';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [IconComponent, RevealDirective, SectionHeadingComponent],
+  imports: [IconComponent, RevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
 })
 export class ContactComponent {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly hire = inject(HireDialogService);
 
   protected readonly profile = PROFILE;
 
@@ -27,6 +28,10 @@ export class ContactComponent {
 
   constructor() {
     this.destroyRef.onDestroy(() => clearTimeout(this.timer));
+  }
+
+  protected openHire(): void {
+    this.hire.open();
   }
 
   protected async copy(value: string, key: string): Promise<void> {

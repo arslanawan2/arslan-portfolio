@@ -1,0 +1,105 @@
+@if (isOpen()) {
+  <div class="scrim" (click)="close()"></div>
+
+  <div
+    #panel
+    class="panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="hire-title"
+    tabindex="-1"
+    (keydown)="onKeydown($event)"
+  >
+    <header class="panel__head">
+      <div>
+        <p class="sec-tag"><b>Available</b></p>
+        <h2 class="panel__title" id="hire-title">Let's talk</h2>
+      </div>
+      <button type="button" class="panel__close" (click)="close()" aria-label="Close dialog">
+        <app-icon name="close" [size]="18" />
+      </button>
+    </header>
+
+    <p class="panel__lede">
+      Tell me a little and I'll draft the email for you — then send it however you prefer.
+    </p>
+
+    <!-- Draft fields -->
+    <div class="field">
+      <label for="hire-name">Your name</label>
+      <input id="hire-name" type="text" autocomplete="name" [ngModel]="name()" (ngModelChange)="name.set($event)" />
+    </div>
+
+    <div class="field">
+      <label for="hire-company">Company <span>(optional)</span></label>
+      <input
+        id="hire-company"
+        type="text"
+        autocomplete="organization"
+        [ngModel]="company()"
+        (ngModelChange)="company.set($event)"
+      />
+    </div>
+
+    <div class="field">
+      <label for="hire-msg">What's the role?</label>
+      <textarea
+        id="hire-msg"
+        rows="3"
+        [ngModel]="message()"
+        (ngModelChange)="message.set($event)"
+        placeholder="We're hiring an Angular engineer for..."
+      ></textarea>
+    </div>
+
+    <!-- Live preview of the drafted message -->
+    <div class="preview">
+      <p class="preview__label">Subject — {{ subject() }}</p>
+      <pre class="preview__body">{{ body() }}</pre>
+    </div>
+
+    <!-- Every route works, even with no mail client installed -->
+    <div class="panel__actions">
+      <a class="btn" [href]="mailto()">
+        <app-icon name="mail" [size]="16" />
+        Open in email
+      </a>
+      <button type="button" class="btn btn--ghost" (click)="copy(profile.email, 'address')">
+        <app-icon [name]="copied() === 'address' ? 'check' : 'copy'" [size]="16" />
+        {{ copied() === 'address' ? 'Address copied' : 'Copy address' }}
+      </button>
+      <button type="button" class="btn btn--ghost" (click)="copy(body(), 'draft')">
+        <app-icon [name]="copied() === 'draft' ? 'check' : 'copy'" [size]="16" />
+        {{ copied() === 'draft' ? 'Draft copied' : 'Copy draft' }}
+      </button>
+    </div>
+
+    <!-- Direct channels -->
+    <ul class="channels">
+      <li>
+        <a [href]="'mailto:' + profile.email">
+          <app-icon name="mail" [size]="15" />
+          {{ profile.email }}
+        </a>
+      </li>
+      <li>
+        <a [href]="whatsapp()" target="_blank" rel="noopener noreferrer">
+          <app-icon name="phone" [size]="15" />
+          {{ profile.phone }}
+        </a>
+      </li>
+      <li>
+        <a [href]="profile.linkedin" target="_blank" rel="noopener noreferrer">
+          <app-icon name="linkedin" [size]="15" />
+          LinkedIn
+        </a>
+      </li>
+    </ul>
+
+    <p class="sr-only" role="status" aria-live="polite">
+      @if (copied()) {
+        {{ copied() }} copied to clipboard
+      }
+    </p>
+  </div>
+}

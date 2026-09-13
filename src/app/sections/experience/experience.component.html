@@ -1,6 +1,7 @@
-﻿<section class="experience">
+<section class="experience">
   <div class="container">
     <app-section-heading
+      index="02"
       eyebrow="Experience"
       title="What I've"
       accent="shipped"
@@ -9,38 +10,28 @@
 
     <ol class="timeline">
       @for (role of roles; track role.company) {
-        <li class="tl-item">
-          <!-- Rail marker -->
-          <span class="tl-marker" aria-hidden="true">
-            <span class="tl-dot" [class.is-current]="role.current"></span>
-          </span>
+        <li class="role">
+          <!-- Sticky metadata rail -->
+          <div class="role__aside">
+            <p class="role__period">
+              <span class="role__dot" aria-hidden="true"></span>
+              {{ role.period }}
+            </p>
+            <h3 class="role__title">{{ role.title }}</h3>
+            <p class="role__company">{{ role.company }}</p>
+            @if (role.current) {
+              <p class="role__badge">Current</p>
+            }
+          </div>
 
-          <article class="tl-card" appReveal="right">
-            <header class="tl-head">
-              <div>
-                <h3 class="tl-title">{{ role.title }}</h3>
-                <p class="tl-company">
-                  {{ role.company }}
-                  @if (role.current) {
-                    <span class="tl-badge">Current</span>
-                  }
-                </p>
-              </div>
-              <p class="tl-period">
-                <app-icon name="spark" [size]="13" />
-                {{ role.period }}
-              </p>
-            </header>
-
-            <ul class="tl-list">
-              @for (h of role.highlights; track h.text; let i = $index) {
-                <li class="tl-bullet" appReveal [revealDelay]="i * 70">
-                  <span class="tl-bullet__dot" aria-hidden="true"></span>
-                  <span [innerHTML]="h.text | emphasize: h.emphasis"></span>
-                </li>
-              }
-            </ul>
-          </article>
+          <ul class="bullets">
+            @for (h of role.highlights; track h.text; let i = $index) {
+              <li class="bullet" appReveal [revealDelay]="i * 60">
+                <span class="bullet__n" aria-hidden="true">{{ i + 1 < 10 ? '0' : '' }}{{ i + 1 }}</span>
+                <span [innerHTML]="h.text | emphasize: h.emphasis"></span>
+              </li>
+            }
+          </ul>
         </li>
       }
     </ol>

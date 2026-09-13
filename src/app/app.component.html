@@ -1,53 +1,60 @@
 <a class="skip-link" href="#main">Skip to content</a>
 
 <app-ambient />
-<app-navbar />
+<app-intro (completed)="onIntroDone()" />
 
-<main id="main">
-  <!-- Above the fold: rendered eagerly so LCP is not deferred. -->
-  <div class="anchor" id="home"><app-hero /></div>
-  <div class="anchor" id="about"><app-about /></div>
+<div class="shell" [class.is-ready]="ready()">
+  <app-navbar />
 
-  <!--
-    Below the fold: each block is fetched when it nears the
-    viewport. The anchor <div> stays in the DOM from the start,
-    so in-page links and scroll-spy work before the chunk loads.
-  -->
-  <div class="anchor" id="experience">
-    @defer (on viewport; prefetch on idle) {
-      <app-experience />
-    } @placeholder (minimum 100ms) {
-      <div class="skeleton skeleton--tall"></div>
-    }
-  </div>
+  <main id="main">
+    <!-- Above the fold: eager, so LCP is never behind a chunk load. -->
+    <div class="anchor" id="home"><app-hero /></div>
+    <div class="anchor" id="about"><app-about /></div>
 
-  <div class="anchor" id="skills">
-    @defer (on viewport; prefetch on idle) {
-      <app-skills />
-    } @placeholder (minimum 100ms) {
-      <div class="skeleton"></div>
-    }
-  </div>
+    <!--
+      Below the fold: fetched as each block nears the viewport.
+      The anchor <div> is in the DOM from the start, so in-page
+      links and scroll-spy resolve before the chunk arrives.
+    -->
+    <div class="anchor" id="experience">
+      @defer (on viewport; prefetch on idle) {
+        <app-experience />
+      } @placeholder (minimum 100ms) {
+        <div class="skeleton skeleton--tall"></div>
+      }
+    </div>
 
-  <div class="anchor" id="achievements">
-    @defer (on viewport; prefetch on idle) {
-      <app-achievements />
-    } @placeholder (minimum 100ms) {
-      <div class="skeleton"></div>
-    }
-  </div>
+    <div class="anchor" id="skills">
+      @defer (on viewport; prefetch on idle) {
+        <app-skills />
+      } @placeholder (minimum 100ms) {
+        <div class="skeleton"></div>
+      }
+    </div>
 
-  <div class="anchor" id="contact">
-    @defer (on viewport; prefetch on idle) {
-      <app-contact />
-    } @placeholder (minimum 100ms) {
-      <div class="skeleton"></div>
-    }
-  </div>
-</main>
+    <div class="anchor" id="achievements">
+      @defer (on viewport; prefetch on idle) {
+        <app-achievements />
+      } @placeholder (minimum 100ms) {
+        <div class="skeleton"></div>
+      }
+    </div>
 
-@defer (on viewport) {
-  <app-footer />
-} @placeholder {
-  <div class="skeleton skeleton--short"></div>
-}
+    <div class="anchor" id="contact">
+      @defer (on viewport; prefetch on idle) {
+        <app-contact />
+      } @placeholder (minimum 100ms) {
+        <div class="skeleton"></div>
+      }
+    </div>
+  </main>
+
+  @defer (on viewport) {
+    <app-footer />
+  } @placeholder {
+    <div class="skeleton skeleton--short"></div>
+  }
+</div>
+
+<!-- Hire dialog: mounted once, opened from anywhere via its service. -->
+<app-hire-dialog />

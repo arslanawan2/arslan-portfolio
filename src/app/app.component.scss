@@ -4,6 +4,32 @@
   display: block;
 }
 
+/* The page eases in behind the intro curtain as it lifts, so the
+   two motions overlap instead of queueing. */
+.shell {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 800ms var(--e-out),
+    transform 800ms var(--e-out);
+}
+
+.shell.is-ready {
+  opacity: 1;
+  transform: none;
+}
+
+/* The intro is skipped for reduced-motion visitors, and `ready`
+   flips on the same tick — but never leave the page hidden if
+   something goes wrong with that handshake. */
+@media (prefers-reduced-motion: reduce) {
+  .shell {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* Anchor wrappers own the section ids so in-page links and
    scroll-spy keep working before a @defer block has loaded. */
 .anchor {
@@ -16,14 +42,13 @@
 }
 
 /* ---- Deferred-block placeholders ----
-   Reserve vertical space so loading a chunk does not shift
-   the page underneath the reader. */
+   Reserve height so loading a chunk never shifts the page. */
 .skeleton {
   position: relative;
   min-height: 60vh;
   overflow: hidden;
-  background: var(--bg-tint);
-  opacity: 0.55;
+  background: var(--bg-alt);
+  opacity: 0.5;
 
   &::after {
     content: '';
@@ -32,7 +57,7 @@
     background: linear-gradient(90deg, transparent, var(--surface-2), transparent);
 
     @include motion-safe {
-      animation: shimmer 1.5s var(--ease-in-out) infinite;
+      animation: shimmer 1.6s var(--e-in-out) infinite;
     }
   }
 }

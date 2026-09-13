@@ -1,79 +1,24 @@
 /* ============================================================
    KEYFRAMES + REVEAL SYSTEM
-   Every animation here is transform/opacity only, so it stays
-   on the compositor and never triggers layout.
+   Transform/opacity only — everything stays on the compositor.
    ============================================================ */
 
-@keyframes float-blob {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  33% {
-    transform: translate3d(3%, -4%, 0) scale(1.06);
-  }
-  66% {
-    transform: translate3d(-2.5%, 3%, 0) scale(0.95);
-  }
-}
-
-@keyframes gradient-pan {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-@keyframes fade-up {
+@keyframes rise-in {
   from {
-    opacity: 0;
-    transform: translate3d(0, 22px, 0);
+    transform: translate3d(0, 110%, 0) rotate(2deg);
   }
   to {
-    opacity: 1;
     transform: none;
   }
 }
 
-@keyframes pulse-ring {
-  0% {
-    transform: scale(0.9);
-    opacity: 0.7;
-  }
-  70% {
-    transform: scale(1.6);
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes blink-caret {
+@keyframes drift {
   0%,
-  45% {
-    opacity: 1;
-  }
-  50%,
-  95% {
-    opacity: 0;
-  }
-}
-
-@keyframes scroll-hint {
-  0% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-  35% {
-    opacity: 1;
-  }
   100% {
-    transform: translateY(13px);
-    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -12px, 0);
   }
 }
 
@@ -86,6 +31,40 @@
   }
 }
 
+@keyframes marquee-rev {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  95% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.8;
+  }
+  75% {
+    transform: scale(1.75);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes shimmer {
   from {
     transform: translate3d(-120%, 0, 0);
@@ -95,18 +74,36 @@
   }
 }
 
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes scroll-hint {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+}
+
 /* ------------------------------------------------------------
-   Scroll reveal — driven by the [appReveal] directive, which
-   flips .is-visible once the element intersects the viewport.
-   The directive sets --reveal-delay for stagger.
+   Scroll reveal — [appReveal] adds .is-visible on intersection.
    ------------------------------------------------------------ */
 [data-reveal] {
   opacity: 0;
-  transform: translate3d(0, var(--reveal-y, 26px), 0) scale(var(--reveal-scale, 1));
+  transform: translate3d(0, var(--rv-y, 28px), 0) scale(var(--rv-s, 1));
   transition:
-    opacity var(--d-reveal) var(--ease-out),
-    transform var(--d-reveal) var(--ease-out);
-  transition-delay: var(--reveal-delay, 0ms);
+    opacity var(--d-reveal) var(--e-out),
+    transform var(--d-reveal) var(--e-out);
+  transition-delay: var(--rv-delay, 0ms);
   will-change: opacity, transform;
 }
 
@@ -117,19 +114,30 @@
 }
 
 [data-reveal='left'] {
-  transform: translate3d(-34px, 0, 0);
+  transform: translate3d(-40px, 0, 0);
 }
 
 [data-reveal='right'] {
-  transform: translate3d(34px, 0, 0);
+  transform: translate3d(40px, 0, 0);
 }
 
 [data-reveal='scale'] {
-  transform: scale(0.93);
+  transform: scale(0.94);
 }
 
-/* If the visitor prefers reduced motion, everything is simply
-   present — no transforms, no delays, no ambient looping. */
+/* A line of type that slides up from behind a mask. */
+[data-reveal='mask'] {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path var(--d-reveal) var(--e-out);
+  transition-delay: var(--rv-delay, 0ms);
+}
+
+[data-reveal='mask'].is-visible {
+  clip-path: inset(0 0 -20% 0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -143,5 +151,6 @@
   [data-reveal] {
     opacity: 1 !important;
     transform: none !important;
+    clip-path: none !important;
   }
 }

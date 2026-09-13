@@ -1,0 +1,17 @@
+{
+  "name": "Arslan Awan — Frontend Engineer",
+  "short_name": "Arslan Awan",
+  "description": "Portfolio of Arslan Awan, Frontend Engineer specialising in Angular.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0c",
+  "theme_color": "#0a0a0c",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

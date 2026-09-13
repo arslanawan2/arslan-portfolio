@@ -1,17 +1,20 @@
 <section class="achievements">
   <div class="container">
     <app-section-heading
+      index="04"
       eyebrow="Achievements"
       title="Impact worth"
       accent="calling out"
       lead="Two pieces of work that changed how the products — and the teams — operate."
     />
 
-    <div class="ach__grid">
+    <div class="ach-grid">
       @for (item of achievements; track item.title; let i = $index) {
-        <article class="ach" appTilt appReveal="scale" [revealDelay]="i * 120">
-          <span class="ach__num" aria-hidden="true">0{{ i + 1 }}</span>
-          <span class="ach__icon"><app-icon [name]="item.icon" [size]="22" /></span>
+        <article class="ach" appReveal [revealDelay]="i * 110">
+          <div class="ach__head">
+            <span class="ach__icon"><app-icon [name]="item.icon" [size]="20" /></span>
+            <span class="ach__n" aria-hidden="true">0{{ i + 1 }}</span>
+          </div>
           <h3 class="ach__title">{{ item.title }}</h3>
           <p class="ach__detail">{{ item.detail }}</p>
         </article>
@@ -19,11 +22,14 @@
     </div>
 
     <!-- Integration strip -->
-    <div class="services" appReveal>
-      <p class="services__label">Services integrated in production</p>
-      <ul class="services__list">
+    <div class="svc" appReveal>
+      <p class="svc__label">Services integrated in production</p>
+      <ul class="svc__list">
         @for (s of services; track s; let i = $index) {
-          <li class="services__item" appReveal="scale" [revealDelay]="i * 60">{{ s }}</li>
+          <li class="svc__item" appReveal="scale" [revealDelay]="i * 55">
+            <span class="svc__dot" aria-hidden="true"></span>
+            {{ s }}
+          </li>
         }
       </ul>
     </div>

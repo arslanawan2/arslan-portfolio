@@ -1,0 +1,237 @@
+@use '../../../styles/mixins' as *;
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+
+  @include motion-safe {
+    animation: scrim-in 320ms var(--e-out);
+  }
+}
+
+@keyframes scrim-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ---- Panel: a right-hand drawer on desktop, a sheet on mobile ---- */
+.panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 401;
+  width: min(480px, 100%);
+  padding: clamp(1.4rem, 4vw, 2.2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--bg-alt);
+  border-left: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+
+  &:focus {
+    outline: none;
+  }
+
+  @include motion-safe {
+    animation: drawer-in 460ms var(--e-out);
+  }
+
+  @include below($bp-sm) {
+    top: auto;
+    width: 100%;
+    max-height: 92dvh;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+
+    @include motion-safe {
+      animation: sheet-in 460ms var(--e-out);
+    }
+  }
+}
+
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+/* ---- Head ---- */
+.panel__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.panel__title {
+  margin-top: 0.5rem;
+  font-size: var(--t-xl);
+  font-weight: 700;
+}
+
+.panel__close {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  transition:
+    color var(--d-fast) var(--e-out),
+    border-color var(--d-fast) var(--e-out),
+    transform var(--d-fast) var(--e-spring);
+  @include focus-ring(2px);
+
+  &:hover {
+    color: var(--warm);
+    border-color: var(--warm);
+    transform: rotate(90deg);
+  }
+}
+
+.panel__lede {
+  margin-bottom: 1.5rem;
+  font-size: var(--t-sm);
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+/* ---- Fields ---- */
+.field {
+  margin-bottom: 0.95rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-family: var(--f-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-subtle);
+
+    span {
+      text-transform: none;
+      letter-spacing: 0;
+      opacity: 0.7;
+    }
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.72rem 0.9rem;
+    font-size: var(--t-sm);
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    resize: vertical;
+    transition:
+      border-color var(--d-fast) var(--e-out),
+      box-shadow var(--d-fast) var(--e-out);
+
+    &::placeholder {
+      color: var(--text-subtle);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+  }
+}
+
+/* ---- Draft preview ---- */
+.preview {
+  padding: 0.95rem 1.05rem;
+  margin-bottom: 1.35rem;
+  background: var(--surface);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--r-sm);
+}
+
+.preview__label {
+  margin-bottom: 0.55rem;
+  padding-bottom: 0.55rem;
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  overflow-wrap: anywhere;
+}
+
+.preview__body {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: 0.74rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* ---- Actions ---- */
+.panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-bottom: 1.5rem;
+
+  .btn {
+    flex: 1 1 auto;
+    padding: 0.78rem 1.1rem;
+    font-size: var(--t-xs);
+  }
+}
+
+/* ---- Channels ---- */
+.channels {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding-top: 1.1rem;
+  margin: 0;
+  list-style: none;
+  @include rule;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0;
+    font-size: var(--t-sm);
+    color: var(--text-muted);
+    overflow-wrap: anywhere;
+    transition:
+      color var(--d-fast) var(--e-out),
+      padding-left var(--d-base) var(--e-out);
+    @include focus-ring(2px);
+
+    app-icon {
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    &:hover {
+      color: var(--text);
+      padding-left: 5px;
+    }
+  }
+}

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { NAV_ITEMS, PROFILE } from '../../core/data/portfolio.data';
 import { ScrollService } from '../../core/services/scroll.service';
 import { ThemeService } from '../../core/services/theme.service';
+import { HireDialogService } from '../../shared/hire-dialog/hire-dialog.service';
 import { IconComponent } from '../../shared/icon/icon.component';
 
 @Component({
@@ -14,6 +15,7 @@ import { IconComponent } from '../../shared/icon/icon.component';
 })
 export class NavbarComponent {
   private readonly scrollService = inject(ScrollService);
+  private readonly hire = inject(HireDialogService);
   protected readonly theme = inject(ThemeService);
 
   protected readonly navItems = NAV_ITEMS;
@@ -32,5 +34,10 @@ export class NavbarComponent {
 
   protected toggleMenu(): void {
     this.menuOpen.update((v) => !v);
+  }
+
+  protected openHire(): void {
+    this.menuOpen.set(false);
+    this.hire.open();
   }
 }
