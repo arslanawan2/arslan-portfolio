@@ -1,0 +1,151 @@
+@use '../../../styles/mixins' as *;
+
+.footer {
+  padding-top: 3.2rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg-tint);
+  transition: background-color var(--d-base) var(--ease-out);
+}
+
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6rem;
+  padding-bottom: 2.2rem;
+}
+
+/* ---- Brand ---- */
+.footer__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.footer__mark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  font-family: var(--font-display);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text-on-accent);
+  background: linear-gradient(140deg, var(--accent), var(--accent-2));
+  border-radius: 11px;
+}
+
+.footer__name {
+  font-family: var(--font-display);
+  font-size: var(--fs-base);
+  font-weight: 650;
+  color: var(--text);
+}
+
+.footer__role {
+  font-size: var(--fs-xs);
+  color: var(--text-subtle);
+}
+
+/* ---- Nav ---- */
+.footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+
+  a {
+    position: relative;
+    font-size: var(--fs-sm);
+    color: var(--text-muted);
+    transition: color var(--d-fast) var(--ease-out);
+    @include focus-ring(2px);
+
+    /* Underline that grows from the left on hover. */
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      width: 100%;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: 0 50%;
+      transition: transform var(--d-base) var(--ease-out);
+    }
+
+    &:hover {
+      color: var(--accent);
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+}
+
+/* ---- Social ---- */
+.footer__social {
+  display: flex;
+  gap: 0.5rem;
+
+  a {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    transition:
+      color var(--d-fast) var(--ease-out),
+      border-color var(--d-fast) var(--ease-out),
+      transform var(--d-fast) var(--ease-spring);
+    @include focus-ring(2px);
+
+    &:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+  }
+}
+
+/* ---- Base bar ---- */
+.footer__base {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding-block: 1.15rem;
+  border-top: 1px solid var(--border);
+  font-size: var(--fs-xs);
+  color: var(--text-subtle);
+}
+
+.footer__top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  transition: color var(--d-fast) var(--ease-out);
+  @include focus-ring(2px);
+
+  app-icon {
+    transition: transform var(--d-base) var(--ease-spring);
+    /* Point the arrow upward. */
+    transform: rotate(-90deg);
+  }
+
+  &:hover {
+    color: var(--accent);
+
+    app-icon {
+      transform: rotate(-90deg) translateX(3px);
+    }
+  }
+}

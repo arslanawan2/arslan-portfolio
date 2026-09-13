@@ -1,0 +1,174 @@
+@use 'sass:map';
+
+/* ============================================================
+   DESIGN TOKENS
+   Single source of truth. Light is the base :root palette,
+   dark overrides only the values that change — never the
+   structure. Both themes must define every semantic token.
+   ============================================================ */
+
+:root {
+  /* ---- Brand ramp (teal, carried from the CV header) ---- */
+  --brand-50: #ecfdf7;
+  --brand-100: #d0fbef;
+  --brand-200: #a5f3e1;
+  --brand-300: #6ee7d0;
+  --brand-400: #2dd4bf;
+  --brand-500: #14b8a6;
+  --brand-600: #0d9488;
+  --brand-700: #0f766e;
+  --brand-800: #115e59;
+  --brand-900: #134e4a;
+
+  /* ---- Secondary ramp (indigo, for gradient partnering) ---- */
+  --iris-300: #a5b4fc;
+  --iris-400: #818cf8;
+  --iris-500: #6366f1;
+  --iris-600: #4f46e5;
+
+  /* ---- Semantic surfaces (LIGHT) ---- */
+  --bg: #fbfcfd;
+  --bg-tint: #f2f6f8;
+  --surface: #ffffff;
+  --surface-2: #f4f7fa;
+  --surface-glass: rgba(255, 255, 255, 0.72);
+  --border: rgba(13, 21, 32, 0.1);
+  --border-strong: rgba(13, 21, 32, 0.18);
+
+  /* ---- Semantic text (LIGHT) ---- */
+  --text: #0d1520;
+  --text-muted: #55637a;
+  --text-subtle: #7d8899;
+  --text-on-accent: #ffffff;
+
+  /* ---- Accents (LIGHT) ---- */
+  --accent: var(--brand-600);
+  --accent-hover: var(--brand-700);
+  --accent-soft: rgba(13, 148, 136, 0.1);
+  --accent-ring: rgba(13, 148, 136, 0.32);
+  --accent-2: var(--iris-600);
+
+  /* ---- Ambient light blobs (LIGHT) ---- */
+  --glow-1: rgba(20, 184, 166, 0.2);
+  --glow-2: rgba(99, 102, 241, 0.16);
+  --glow-3: rgba(45, 212, 191, 0.14);
+  --grain-opacity: 0.025;
+
+  /* ---- Elevation ---- */
+  --shadow-sm: 0 1px 2px rgba(13, 21, 32, 0.06), 0 1px 3px rgba(13, 21, 32, 0.04);
+  --shadow-md: 0 4px 12px rgba(13, 21, 32, 0.07), 0 2px 4px rgba(13, 21, 32, 0.04);
+  --shadow-lg: 0 18px 40px rgba(13, 21, 32, 0.1), 0 4px 12px rgba(13, 21, 32, 0.05);
+  --shadow-glow: 0 10px 40px -10px rgba(13, 148, 136, 0.45);
+
+  /* ---- Typography ---- */
+  --font-display: 'Sora', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Code', ui-monospace, monospace;
+
+  /* Fluid type scale — clamp() so it breathes between 360px and 1440px */
+  --fs-xs: clamp(0.72rem, 0.7rem + 0.1vw, 0.78rem);
+  --fs-sm: clamp(0.82rem, 0.8rem + 0.12vw, 0.9rem);
+  --fs-base: clamp(0.94rem, 0.9rem + 0.18vw, 1.02rem);
+  --fs-md: clamp(1.05rem, 1rem + 0.25vw, 1.18rem);
+  --fs-lg: clamp(1.25rem, 1.12rem + 0.6vw, 1.6rem);
+  --fs-xl: clamp(1.6rem, 1.35rem + 1.1vw, 2.3rem);
+  --fs-2xl: clamp(2.1rem, 1.6rem + 2.2vw, 3.4rem);
+  --fs-3xl: clamp(2.6rem, 1.7rem + 4vw, 5.2rem);
+
+  /* ---- Spacing / layout ---- */
+  --gutter: clamp(1.1rem, 4vw, 2.5rem);
+  --section-y: clamp(4.5rem, 10vw, 9rem);
+  --maxw: 1180px;
+  --maxw-narrow: 760px;
+
+  /* ---- Radii ---- */
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-pill: 999px;
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --d-fast: 180ms;
+  --d-base: 320ms;
+  --d-slow: 620ms;
+  --d-reveal: 900ms;
+
+  /* ---- Chrome ---- */
+  --nav-h: 68px;
+  color-scheme: light;
+}
+
+/* ============================================================
+   DARK THEME
+   Applied by ThemeService via [data-theme="dark"] on <html>.
+   Only semantic tokens are reassigned; ramps stay constant.
+   ============================================================ */
+:root[data-theme='dark'] {
+  --bg: #07090c;
+  --bg-tint: #0a0e13;
+  --surface: #0e1319;
+  --surface-2: #141b23;
+  --surface-glass: rgba(14, 19, 25, 0.66);
+  --border: rgba(232, 237, 244, 0.09);
+  --border-strong: rgba(232, 237, 244, 0.17);
+
+  --text: #e8edf4;
+  --text-muted: #98a5b8;
+  --text-subtle: #6b7789;
+  --text-on-accent: #04120f;
+
+  --accent: var(--brand-400);
+  --accent-hover: var(--brand-300);
+  --accent-soft: rgba(45, 212, 191, 0.12);
+  --accent-ring: rgba(45, 212, 191, 0.36);
+  --accent-2: var(--iris-400);
+
+  --glow-1: rgba(20, 184, 166, 0.26);
+  --glow-2: rgba(99, 102, 241, 0.22);
+  --glow-3: rgba(45, 212, 191, 0.16);
+  --grain-opacity: 0.04;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 22px 50px rgba(0, 0, 0, 0.62);
+  --shadow-glow: 0 10px 46px -10px rgba(45, 212, 191, 0.4);
+
+  color-scheme: dark;
+}
+
+/* First paint before JS boots: follow the OS unless the user
+   has already made an explicit choice (data-theme is stamped
+   by an inline script in index.html to avoid any flash). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #07090c;
+    --bg-tint: #0a0e13;
+    --surface: #0e1319;
+    --surface-2: #141b23;
+    --surface-glass: rgba(14, 19, 25, 0.66);
+    --border: rgba(232, 237, 244, 0.09);
+    --border-strong: rgba(232, 237, 244, 0.17);
+    --text: #e8edf4;
+    --text-muted: #98a5b8;
+    --text-subtle: #6b7789;
+    --text-on-accent: #04120f;
+    --accent: var(--brand-400);
+    --accent-hover: var(--brand-300);
+    --accent-soft: rgba(45, 212, 191, 0.12);
+    --accent-ring: rgba(45, 212, 191, 0.36);
+    --accent-2: var(--iris-400);
+    --glow-1: rgba(20, 184, 166, 0.26);
+    --glow-2: rgba(99, 102, 241, 0.22);
+    --glow-3: rgba(45, 212, 191, 0.16);
+    --grain-opacity: 0.04;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.55);
+    --shadow-lg: 0 22px 50px rgba(0, 0, 0, 0.62);
+    --shadow-glow: 0 10px 46px -10px rgba(45, 212, 191, 0.4);
+    color-scheme: dark;
+  }
+}

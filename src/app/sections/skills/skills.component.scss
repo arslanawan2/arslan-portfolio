@@ -1,0 +1,108 @@
+@use '../../../styles/mixins' as *;
+
+.skills {
+  padding-block: var(--section-y);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1.15rem;
+}
+
+.card {
+  position: relative;
+  padding: 1.6rem;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  isolation: isolate;
+
+  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) scale(var(--tilt-scale, 1));
+  transition:
+    transform var(--d-base) var(--ease-out),
+    border-color var(--d-base) var(--ease-out),
+    box-shadow var(--d-base) var(--ease-out);
+  @include glass(12px);
+
+  /* Cursor spotlight, fed by [appTilt]. */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(320px circle at var(--spot-x, 50%) var(--spot-y, 50%), var(--accent-soft), transparent 70%);
+    opacity: var(--spot-opacity, 0);
+    transition: opacity var(--d-base) var(--ease-out);
+  }
+
+  &:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.card__head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1.1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.card__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-ring);
+  border-radius: var(--r-md);
+  transition: transform var(--d-base) var(--ease-spring);
+
+  .card:hover & {
+    transform: rotate(-7deg) scale(1.07);
+  }
+}
+
+.card__title {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+/* ---- Chips ---- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.chip {
+  padding: 0.36rem 0.78rem;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  cursor: default;
+  transition:
+    color var(--d-fast) var(--ease-out),
+    background-color var(--d-fast) var(--ease-out),
+    border-color var(--d-fast) var(--ease-out),
+    transform var(--d-fast) var(--ease-spring);
+
+  &:hover {
+    color: var(--text-on-accent);
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+}

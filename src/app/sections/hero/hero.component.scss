@@ -1,0 +1,338 @@
+@use '../../../styles/mixins' as *;
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100svh;
+  padding-block: calc(var(--nav-h) + 3rem) 6rem;
+  overflow: hidden;
+}
+
+.hero__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.35rem;
+  flex: 1;
+  justify-content: center;
+}
+
+/* ---- Availability pill ---- */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.42rem 0.95rem;
+  font-size: var(--fs-xs);
+  font-weight: 550;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  background: var(--surface-glass);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  backdrop-filter: blur(8px);
+}
+
+.status__dot {
+  position: relative;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+
+  /* Pulsing halo. */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1.5px solid #22c55e;
+
+    @include motion-safe {
+      animation: pulse-ring 2.4s var(--ease-out) infinite;
+    }
+  }
+}
+
+/* ---- Title ---- */
+.hero__title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.hero__greeting {
+  font-size: var(--fs-lg);
+  font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: -0.01em;
+}
+
+.hero__name {
+  font-size: var(--fs-3xl);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+}
+
+/* ---- Role rotator ---- */
+.rotator {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: 550;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.rotator__prefix {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Fixed-height window; items cross-fade through it. */
+.rotator__viewport {
+  position: relative;
+  display: inline-grid;
+  min-height: 1.35em;
+}
+
+.rotator__item {
+  grid-area: 1 / 1;
+  color: var(--accent);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(0.45em);
+  transition:
+    opacity var(--d-slow) var(--ease-out),
+    transform var(--d-slow) var(--ease-out);
+
+  &.is-active {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rotator__caret {
+  width: 2.5px;
+  height: 1.05em;
+  background: var(--accent);
+  border-radius: 2px;
+
+  @include motion-safe {
+    animation: blink-caret 1.15s step-end infinite;
+  }
+}
+
+@include below($bp-sm) {
+  .rotator {
+    flex-wrap: wrap;
+    row-gap: 0.1rem;
+  }
+}
+
+/* ---- Summary ---- */
+.hero__summary {
+  max-width: 64ch;
+  font-size: var(--fs-md);
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+/* ---- Actions ---- */
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 0.4rem;
+}
+
+/* ---- Quick facts ---- */
+.hero__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.6rem;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  list-style: none;
+  font-size: var(--fs-sm);
+  color: var(--text-subtle);
+
+  li,
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  a {
+    transition: color var(--d-fast) var(--ease-out);
+    @include focus-ring(2px);
+
+    &:hover {
+      color: var(--accent);
+    }
+  }
+
+  app-icon {
+    color: var(--accent);
+  }
+}
+
+/* ---- Metrics ---- */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  width: 100%;
+  margin: 2.4rem 0 0;
+
+  @include below($bp-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.metric {
+  position: relative;
+  padding: 1.15rem 1.25rem;
+  border-radius: var(--r-lg);
+  transition:
+    transform var(--d-base) var(--ease-out),
+    border-color var(--d-base) var(--ease-out),
+    box-shadow var(--d-base) var(--ease-out);
+  /* Placed last: the mixin emits an @supports block, and plain
+     declarations must not follow a nested rule. */
+  @include glass(10px);
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.metric__value {
+  display: flex;
+  align-items: baseline;
+  gap: 0.05rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 1.2rem + 1.8vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  color: var(--text);
+}
+
+.metric__affix {
+  color: var(--accent);
+}
+
+.metric__label {
+  margin: 0.5rem 0 0;
+  font-size: var(--fs-xs);
+  line-height: 1.45;
+  color: var(--text-subtle);
+}
+
+/* ---- Marquee ---- */
+.marquee {
+  position: relative;
+  margin-top: 3rem;
+  padding-block: 0.9rem;
+  border-block: 1px solid var(--border);
+  overflow: hidden;
+  /* Fade both edges so items enter and leave softly. */
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.marquee__track {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  width: max-content;
+  will-change: transform;
+
+  @include motion-safe {
+    animation: marquee 42s linear infinite;
+  }
+
+  .marquee:hover & {
+    animation-play-state: paused;
+  }
+}
+
+.marquee__item {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.04em;
+  color: var(--text-subtle);
+  white-space: nowrap;
+  transition: color var(--d-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--accent);
+  }
+}
+
+.marquee__sep {
+  font-size: 0.5rem;
+  color: var(--accent);
+  opacity: 0.55;
+}
+
+/* ---- Scroll cue ---- */
+.scroll-cue {
+  position: absolute;
+  bottom: 1.1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.42rem;
+  color: var(--text-subtle);
+  transition: color var(--d-fast) var(--ease-out);
+  @include focus-ring;
+
+  &:hover {
+    color: var(--accent);
+  }
+
+  @include below($bp-md) {
+    display: none;
+  }
+}
+
+.scroll-cue__mouse {
+  display: flex;
+  justify-content: center;
+  width: 22px;
+  height: 34px;
+  padding-top: 6px;
+  border: 1.5px solid currentColor;
+  border-radius: var(--r-pill);
+}
+
+.scroll-cue__wheel {
+  width: 2.5px;
+  height: 6px;
+  background: currentColor;
+  border-radius: 2px;
+
+  @include motion-safe {
+    animation: scroll-hint 1.9s var(--ease-out) infinite;
+  }
+}
+
+.scroll-cue__text {
+  font-family: var(--font-mono);
+  font-size: 0.63rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}

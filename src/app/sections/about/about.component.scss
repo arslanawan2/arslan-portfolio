@@ -1,0 +1,151 @@
+@use '../../../styles/mixins' as *;
+
+.about {
+  padding-block: var(--section-y);
+}
+
+.about__grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+
+  @include below($bp-lg) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Narrative ---- */
+.about__story {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.about__lede {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 550;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.about__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: 0.9rem;
+}
+
+.meta-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.9rem 1.05rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  transition:
+    border-color var(--d-base) var(--ease-out),
+    transform var(--d-base) var(--ease-out);
+
+  &:hover {
+    border-color: var(--accent);
+    transform: translateX(4px);
+  }
+}
+
+.meta-card__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: var(--r-sm);
+}
+
+.meta-card__title {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.meta-card__sub {
+  font-size: var(--fs-xs);
+  color: var(--text-subtle);
+  line-height: 1.5;
+}
+
+/* ---- Pillars ---- */
+.pillars {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.pillar {
+  position: relative;
+  padding: 1.5rem;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  isolation: isolate;
+
+  /* 3D tilt values are written by [appTilt]. */
+  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) scale(var(--tilt-scale, 1));
+  transform-style: preserve-3d;
+  transition:
+    transform var(--d-base) var(--ease-out),
+    border-color var(--d-base) var(--ease-out),
+    box-shadow var(--d-base) var(--ease-out);
+  @include glass(12px);
+
+  /* Cursor spotlight. */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(340px circle at var(--spot-x, 50%) var(--spot-y, 50%), var(--accent-soft), transparent 70%);
+    opacity: var(--spot-opacity, 0);
+    transition: opacity var(--d-base) var(--ease-out);
+  }
+
+  &:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.pillar__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 0.9rem;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-ring);
+  border-radius: var(--r-md);
+}
+
+.pillar__title {
+  margin-bottom: 0.45rem;
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.pillar__body {
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+  color: var(--text-muted);
+}

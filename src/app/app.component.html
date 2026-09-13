@@ -1,0 +1,53 @@
+<a class="skip-link" href="#main">Skip to content</a>
+
+<app-ambient />
+<app-navbar />
+
+<main id="main">
+  <!-- Above the fold: rendered eagerly so LCP is not deferred. -->
+  <div class="anchor" id="home"><app-hero /></div>
+  <div class="anchor" id="about"><app-about /></div>
+
+  <!--
+    Below the fold: each block is fetched when it nears the
+    viewport. The anchor <div> stays in the DOM from the start,
+    so in-page links and scroll-spy work before the chunk loads.
+  -->
+  <div class="anchor" id="experience">
+    @defer (on viewport; prefetch on idle) {
+      <app-experience />
+    } @placeholder (minimum 100ms) {
+      <div class="skeleton skeleton--tall"></div>
+    }
+  </div>
+
+  <div class="anchor" id="skills">
+    @defer (on viewport; prefetch on idle) {
+      <app-skills />
+    } @placeholder (minimum 100ms) {
+      <div class="skeleton"></div>
+    }
+  </div>
+
+  <div class="anchor" id="achievements">
+    @defer (on viewport; prefetch on idle) {
+      <app-achievements />
+    } @placeholder (minimum 100ms) {
+      <div class="skeleton"></div>
+    }
+  </div>
+
+  <div class="anchor" id="contact">
+    @defer (on viewport; prefetch on idle) {
+      <app-contact />
+    } @placeholder (minimum 100ms) {
+      <div class="skeleton"></div>
+    }
+  </div>
+</main>
+
+@defer (on viewport) {
+  <app-footer />
+} @placeholder {
+  <div class="skeleton skeleton--short"></div>
+}

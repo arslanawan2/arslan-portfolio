@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Arslan Awan — Frontend Engineer & Angular Developer</title>
+    <meta
+      name="description"
+      content="Frontend Engineer with 3 years building production Angular applications with TypeScript, RxJS and Signals — telehealth platforms, real-time analytics dashboards and HIPAA / SOC 2 / GDPR-aligned interfaces."
+    />
+    <meta name="author" content="Arslan Awan" />
+    <meta name="theme-color" content="#fbfcfd" />
+    <link rel="canonical" href="https://arslanawan2.github.io/arslan-portfolio/" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Arslan Awan — Frontend Engineer & Angular Developer" />
+    <meta
+      property="og:description"
+      content="Angular engineer building integration-dense platforms across healthcare, fintech and enterprise AI governance."
+    />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!--
+      Applies the saved theme before first paint. Without this the
+      page would render light for a frame and then snap to dark.
+    -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('aa-theme');
+          var theme =
+            saved === 'light' || saved === 'dark'
+              ? saved
+              : window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.style.colorScheme = theme;
+        } catch (e) {
+          /* storage blocked — fall back to the CSS media query */
+        }
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Structured data for search results -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Arslan Awan",
+        "jobTitle": "Frontend Engineer",
+        "email": "mailto:marslan7514@gmail.com",
+        "telephone": "+92-303-3917514",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Islamabad",
+          "addressCountry": "PK"
+        },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "PMAS Arid Agriculture University, Rawalpindi"
+        },
+        "knowsAbout": ["Angular", "TypeScript", "RxJS", "Angular Signals", "Frontend Performance", "Accessibility"],
+        "sameAs": ["https://linkedin.com/in/arslan-awan-engineer", "https://github.com/arslanawan2"]
+      }
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>

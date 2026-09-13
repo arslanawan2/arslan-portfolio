@@ -1,0 +1,46 @@
+@use './../styles/mixins' as *;
+
+:host {
+  display: block;
+}
+
+/* Anchor wrappers own the section ids so in-page links and
+   scroll-spy keep working before a @defer block has loaded. */
+.anchor {
+  display: block;
+  scroll-margin-top: var(--nav-h);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+/* ---- Deferred-block placeholders ----
+   Reserve vertical space so loading a chunk does not shift
+   the page underneath the reader. */
+.skeleton {
+  position: relative;
+  min-height: 60vh;
+  overflow: hidden;
+  background: var(--bg-tint);
+  opacity: 0.55;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, var(--surface-2), transparent);
+
+    @include motion-safe {
+      animation: shimmer 1.5s var(--ease-in-out) infinite;
+    }
+  }
+}
+
+.skeleton--tall {
+  min-height: 80vh;
+}
+
+.skeleton--short {
+  min-height: 22vh;
+}
