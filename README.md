@@ -70,7 +70,7 @@ Templates read from it, so changing a job bullet or adding a skill never means t
 
 ## Deployment
 
-Live at **https://arslanawan2.github.io**
+Live at **https://arslanawan2.github.io/arslan-portfolio/**
 
 Every push to `main` runs [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml): install →
 unit tests → production build → publish to GitHub Pages. A failing test stops the deploy, so `main`
@@ -84,13 +84,14 @@ pull requests — so problems surface before they reach `main`.
 In the repo: **Settings → Pages → Build and deployment → Source: _GitHub Actions_**.
 (Pages on a private repo needs a paid plan; public repos are free.)
 
-### The short URL
+### Base href
 
-A repo named `<username>.github.io` is served from the root, so the site is
-`arslanawan2.github.io` rather than `arslanawan2.github.io/<repo>/`.
+A GitHub Pages *project* site is served from `/<repo-name>/`, so this one lives at
+`arslanawan2.github.io/arslan-portfolio/`. Angular has to be built with a matching `--base-href` or
+every asset 404s and the page renders blank.
 
-Nothing needs editing if the repo is renamed: both workflows **derive** `--base-href` from the repo
-name at build time.
+Nothing needs editing if the repo is ever renamed or moved to a domain — both workflows **derive**
+`--base-href` from the repo name at build time.
 
 | Repo | Served from | `--base-href` |
 | --- | --- | --- |
