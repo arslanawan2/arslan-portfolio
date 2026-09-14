@@ -78,8 +78,12 @@
 
 .name__line {
   display: block;
-  /* Each line clips its word so the reveal slides out of nothing. */
-  overflow: hidden;
+}
+
+/* The clipper the reveal directive observes; it stays laid out
+   while the word inside slides up from beneath it. */
+.name__mask {
+  display: block;
 }
 
 .name__line--2 {

@@ -11,10 +11,12 @@ import { RevealDirective } from '../../core/directives/reveal.directive';
       <p class="sec-tag" appReveal><b>{{ index() }}</b> {{ eyebrow() }}</p>
       <div class="head__body">
         <h2 class="head__title" appReveal="mask" [revealDelay]="60">
-          {{ title() }}
-          @if (accent()) {
-            <em class="serif">{{ accent() }}</em>
-          }
+          <span
+            >{{ title() }}
+            @if (accent()) {
+              <em class="serif">{{ accent() }}</em>
+            }</span
+          >
         </h2>
         @if (lead()) {
           <p class="head__lead" appReveal [revealDelay]="160">{{ lead() }}</p>

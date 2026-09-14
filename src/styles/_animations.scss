@@ -125,17 +125,31 @@
   transform: scale(0.94);
 }
 
-/* A line of type that slides up from behind a mask. */
+/* A line of type that slides up from behind a mask.
+   The observed element is the *clipper* and is never itself hidden
+   — an element clipped to zero area reports no intersection, so it
+   would never be told to reveal. The child does the moving. */
 [data-reveal='mask'] {
   opacity: 1;
   transform: none;
-  clip-path: inset(0 0 100% 0);
-  transition: clip-path var(--d-reveal) var(--e-out);
-  transition-delay: var(--rv-delay, 0ms);
+  overflow: hidden;
+  /* Room for descenders and italic overhang, without adding
+     layout space. */
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
 }
 
-[data-reveal='mask'].is-visible {
-  clip-path: inset(0 0 -20% 0);
+[data-reveal='mask'] > * {
+  display: inline-block;
+  transform: translate3d(0, 110%, 0);
+  transition: transform var(--d-reveal) var(--e-out);
+  transition-delay: var(--rv-delay, 0ms);
+  will-change: transform;
+}
+
+[data-reveal='mask'].is-visible > * {
+  transform: none;
+  will-change: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -148,9 +162,9 @@
     scroll-behavior: auto !important;
   }
 
-  [data-reveal] {
+  [data-reveal],
+  [data-reveal] > * {
     opacity: 1 !important;
     transform: none !important;
-    clip-path: none !important;
   }
 }
