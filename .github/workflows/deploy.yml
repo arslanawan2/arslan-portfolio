@@ -1,0 +1,78 @@
+name: Deploy to GitHub Pages
+
+# Every push to main builds, tests and publishes the site.
+# Also runnable by hand from the Actions tab.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Required by actions/deploy-pages: it mints an OIDC token rather
+# than using a personal access token.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race. In-flight runs are cancelled so the
+# newest commit is what ends up live.
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Reads the pnpm version from package.json "packageManager",
+      # so CI always matches the lockfile.
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Unit tests
+        run: pnpm exec ng test --watch=false --browsers=ChromeHeadlessCI
+
+      # base-href must match the Pages sub-path, otherwise every
+      # asset 404s. For arslanawan2/arslan-portfolio the site is
+      # served from /arslan-portfolio/.
+      - name: Build
+        run: pnpm exec ng build --configuration production --base-href /arslan-portfolio/
+
+      - name: Add SPA fallback and disable Jekyll
+        run: |
+          # Pages serves 404.html for unknown paths; handing it the
+          # app shell keeps deep links working.
+          cp dist/arslan-portfolio/browser/index.html dist/arslan-portfolio/browser/404.html
+          # Without this, Pages' Jekyll pass strips files whose names
+          # begin with an underscore.
+          touch dist/arslan-portfolio/browser/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/arslan-portfolio/browser
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

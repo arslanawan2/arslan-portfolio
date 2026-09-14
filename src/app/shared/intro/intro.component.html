@@ -1,0 +1,27 @@
+@if (!done()) {
+  <div class="intro" [class.is-lifting]="lifting()" (click)="finish()">
+    <div class="intro__inner">
+      <!-- Name, letter by letter -->
+      <p class="intro__name" [class.is-lifting]="lifting()">
+        @for (ch of letters; track $index) {
+          <span class="intro__ch" [style.--i]="$index">{{ ch === ' ' ? '&nbsp;' : ch }}</span>
+        }
+      </p>
+
+      <p class="intro__role">Frontend Engineer — Angular</p>
+    </div>
+
+    <!-- Counter + progress rule -->
+    <div class="intro__meter">
+      <span class="intro__count">{{ count() }}</span>
+      <span class="intro__pct">%</span>
+      <span class="intro__bar"><i [style.transform]="'scaleX(' + count() / 100 + ')'"></i></span>
+    </div>
+
+    <p class="intro__skip">Click anywhere to skip</p>
+
+    <!-- Two panels that split apart to reveal the page -->
+    <span class="intro__panel intro__panel--t" aria-hidden="true"></span>
+    <span class="intro__panel intro__panel--b" aria-hidden="true"></span>
+  </div>
+}

@@ -1,0 +1,349 @@
+@use '../../../styles/mixins' as *;
+
+/* ---- Reading progress ---- */
+.progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 120;
+  height: 2px;
+  background: transparent;
+}
+
+.progress__bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  will-change: transform;
+}
+
+/* ---- Header shell ---- */
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 110;
+  transition:
+    background-color var(--d-base) var(--ease-out),
+    border-color var(--d-base) var(--ease-out),
+    box-shadow var(--d-base) var(--ease-out);
+  border-bottom: 1px solid transparent;
+}
+
+/* Not the glass() mixin: that sets the `border` shorthand, which
+   would paint all four sides of the fixed header. Only the bottom
+   edge should be drawn. */
+.nav--solid {
+  border-bottom-color: var(--border);
+  box-shadow: var(--shadow-sm);
+  background: var(--surface);
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    background: var(--surface-glass);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    backdrop-filter: blur(16px) saturate(160%);
+  }
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: var(--nav-h);
+}
+
+/* ---- Brand ---- */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-shrink: 0;
+  @include focus-ring;
+}
+
+.brand__mark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: linear-gradient(140deg, var(--accent), var(--accent-2));
+  box-shadow: var(--shadow-glow);
+  transition: transform var(--d-base) var(--ease-spring);
+
+  .brand:hover & {
+    transform: rotate(-8deg) scale(1.06);
+  }
+}
+
+.brand__initials {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--text-on-accent);
+}
+
+.brand__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brand__name {
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: 650;
+  color: var(--text);
+}
+
+.brand__role {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+@include below($bp-sm) {
+  .brand__text {
+    display: none;
+  }
+}
+
+/* ---- Desktop links ---- */
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  list-style: none;
+  padding: 0.25rem;
+  margin: 0;
+  border-radius: var(--r-pill);
+
+  @include below($bp-lg) {
+    display: none;
+  }
+}
+
+.nav__link {
+  position: relative;
+  display: inline-block;
+  padding: 0.45rem 0.95rem;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--text-muted);
+  border-radius: var(--r-pill);
+  transition: color var(--d-fast) var(--ease-out);
+  @include focus-ring(2px);
+
+  /* Pill that fades in behind the active/hovered item. */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--accent-soft);
+    opacity: 0;
+    transform: scale(0.86);
+    transition:
+      opacity var(--d-base) var(--ease-out),
+      transform var(--d-base) var(--ease-spring);
+  }
+
+  &:hover {
+    color: var(--text);
+
+    &::before {
+      opacity: 0.6;
+      transform: scale(1);
+    }
+  }
+
+  &.is-active {
+    color: var(--accent);
+    font-weight: 600;
+
+    &::before {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+/* ---- Actions ---- */
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.btn--sm {
+  padding: 0.55rem 1.05rem;
+  font-size: 0.82rem;
+}
+
+@include below($bp-md) {
+  .nav__cta span {
+    display: none;
+  }
+
+  .nav__cta {
+    padding: 0.6rem;
+  }
+}
+
+/* ---- Theme toggle ---- */
+.theme-toggle {
+  padding: 0;
+  border-radius: var(--r-pill);
+  @include focus-ring;
+}
+
+.theme-toggle__track {
+  position: relative;
+  display: block;
+  width: 54px;
+  height: 28px;
+  padding: 3px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  transition:
+    background-color var(--d-base) var(--ease-out),
+    border-color var(--d-base) var(--ease-out);
+
+  .theme-toggle:hover & {
+    border-color: var(--accent);
+  }
+}
+
+.theme-toggle__thumb {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  color: var(--text-on-accent);
+  background: linear-gradient(140deg, var(--accent), var(--accent-2));
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+  /* Spring slide between the two ends of the track. */
+  transition: transform var(--d-slow) var(--ease-spring);
+  transform: translateX(0);
+
+  &.is-dark {
+    transform: translateX(26px);
+  }
+}
+
+/* ---- Burger ---- */
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 0 9px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  @include focus-ring;
+
+  @include below($bp-lg) {
+    display: flex;
+  }
+}
+
+.burger__bar {
+  height: 2px;
+  width: 100%;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform var(--d-base) var(--ease-spring);
+
+  &:first-child.is-open {
+    transform: translateY(3.5px) rotate(45deg);
+  }
+
+  &:last-child.is-open {
+    transform: translateY(-3.5px) rotate(-45deg);
+  }
+}
+
+/* ---- Mobile sheet ---- */
+.mobile {
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  /* grid-template-rows animates smoothly without a fixed height. */
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--d-slow) var(--ease-out);
+  background: var(--surface);
+
+  /* Explicit rather than glass(): only the top edge is bordered. */
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    background: var(--surface-glass);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    backdrop-filter: blur(18px) saturate(160%);
+  }
+
+  @include above($bp-lg) {
+    display: none;
+  }
+
+  &.is-open {
+    grid-template-rows: 1fr;
+  }
+}
+
+.mobile__list {
+  min-height: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobile__item {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    opacity var(--d-base) var(--ease-out),
+    transform var(--d-base) var(--ease-out);
+  transition-delay: calc(var(--i) * 45ms);
+
+  .mobile.is-open & {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.mobile__link {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.95rem var(--gutter);
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: 550;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  transition:
+    color var(--d-fast) var(--ease-out),
+    background-color var(--d-fast) var(--ease-out),
+    padding-left var(--d-base) var(--ease-out);
+
+  &:hover,
+  &.is-active {
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding-left: calc(var(--gutter) + 8px);
+  }
+}
+
+.mobile__index {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent);
+  opacity: 0.7;
+}

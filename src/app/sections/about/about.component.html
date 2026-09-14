@@ -1,0 +1,62 @@
+<section class="about">
+  <div class="container">
+    <app-section-heading
+      eyebrow="About"
+      title="Engineering interfaces for"
+      accent="complex domains"
+      lead="Three years turning dense, regulated and integration-heavy problem spaces into Angular front-ends people can actually move through."
+    />
+
+    <div class="about__grid">
+      <!-- Narrative -->
+      <div class="about__story" appReveal="left">
+        <p class="about__lede">
+          I'm a Frontend Engineer based in {{ profile.location }}, currently at Z-Axiss SMC Pvt. Ltd.
+        </p>
+        <p>
+          Most of my work lives where the UI meets something complicated — four role-specific telehealth portals on one
+          shared component architecture, sixty-plus real-time graphs migrated off Looker Studio, or a governance
+          platform whose rule configurators had to satisfy HIPAA, SOC&nbsp;2 and GDPR at the same time.
+        </p>
+        <p>
+          I care about the parts users feel: how fast a data-heavy page settles, whether a multi-step form forgives a
+          mistake, and whether the whole thing still works with a keyboard. I ship in two-week Agile sprints and hold
+          the quality line through peer review and documentation.
+        </p>
+
+        <!-- Education + languages -->
+        <div class="about__meta">
+          <div class="meta-card">
+            <span class="meta-card__icon"><app-icon name="cap" [size]="17" /></span>
+            <div>
+              <p class="meta-card__title">{{ education.degree }}</p>
+              <p class="meta-card__sub">{{ education.institution }} · {{ education.period }}</p>
+            </div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-card__icon"><app-icon name="globe" [size]="17" /></span>
+            <div>
+              <p class="meta-card__title">Languages</p>
+              <p class="meta-card__sub">
+                @for (l of languages; track l.name; let last = $last) {
+                  {{ l.name }} — {{ l.level }}{{ last ? '' : ' · ' }}
+                }
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pillars -->
+      <ul class="pillars">
+        @for (p of pillars; track p.title; let i = $index) {
+          <li class="pillar" appTilt appReveal="right" [revealDelay]="i * 110">
+            <span class="pillar__icon"><app-icon [name]="p.icon" [size]="21" /></span>
+            <h3 class="pillar__title">{{ p.title }}</h3>
+            <p class="pillar__body">{{ p.body }}</p>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

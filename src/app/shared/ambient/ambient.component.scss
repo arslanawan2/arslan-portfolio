@@ -1,0 +1,86 @@
+@use '../../../styles/mixins' as *;
+
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--bg);
+  transition: background-color var(--d-base) var(--ease-out);
+}
+
+/* ---- Drifting colour fields ---- */
+.ambient__blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.9;
+  will-change: transform;
+
+  @include motion-safe {
+    animation: float-blob var(--blob-dur, 26s) var(--ease-in-out) infinite;
+  }
+}
+
+.ambient__blob--1 {
+  --blob-dur: 26s;
+  top: -14%;
+  left: -8%;
+  width: min(56vw, 680px);
+  aspect-ratio: 1;
+  background: radial-gradient(circle, var(--glow-1), transparent 68%);
+}
+
+.ambient__blob--2 {
+  --blob-dur: 34s;
+  top: 22%;
+  right: -14%;
+  width: min(48vw, 600px);
+  aspect-ratio: 1;
+  background: radial-gradient(circle, var(--glow-2), transparent 68%);
+  animation-delay: -9s;
+}
+
+.ambient__blob--3 {
+  --blob-dur: 30s;
+  bottom: -18%;
+  left: 26%;
+  width: min(52vw, 640px);
+  aspect-ratio: 1;
+  background: radial-gradient(circle, var(--glow-3), transparent 68%);
+  animation-delay: -17s;
+}
+
+/* ---- Technical grid, faded out toward the edges ---- */
+.ambient__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 20%, transparent 75%);
+  opacity: 0.5;
+}
+
+/* ---- Film grain: an inline SVG turbulence, no asset needed ---- */
+.ambient__grain {
+  position: absolute;
+  inset: -50%;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+@include below($bp-md) {
+  /* Heavy blurs are expensive on phones — shrink the radius. */
+  .ambient__blob {
+    filter: blur(64px);
+  }
+
+  .ambient__grid {
+    background-size: 44px 44px;
+  }
+}
