@@ -1,93 +1,99 @@
 <section class="hero">
-  <div class="hero__top container">
-    <!-- Meta rail -->
-    <div class="meta">
-      <p class="meta__item" appReveal>
-        <span class="meta__dot" aria-hidden="true"></span>
-        Available for work
-      </p>
-      <p class="meta__item" appReveal [revealDelay]="60">{{ profile.location }}</p>
-      <p class="meta__item meta__item--yr" appReveal [revealDelay]="120">Est. 2023</p>
-    </div>
+  <div class="hero__inner container">
+    <!-- Availability pill -->
+    <p class="status" appReveal [revealDelay]="0">
+      <span class="status__dot" aria-hidden="true"></span>
+      Open to Frontend / Angular roles
+    </p>
 
-    <!-- Oversized name, one masked line per word -->
-    <h1 class="name">
-      <span class="name__line">
-        <span class="name__mask" appReveal="mask"><span class="name__word">Arslan</span></span>
-      </span>
-      <span class="name__line name__line--2">
-        <span class="name__mask" appReveal="mask" [revealDelay]="120"><span class="name__word">Awan</span></span>
-        <span class="name__badge" appReveal="scale" [revealDelay]="420">
-          <span class="name__badge-inner">
-            <app-icon name="spark" [size]="15" />
-          </span>
-        </span>
-      </span>
+    <h1 class="hero__title" appReveal [revealDelay]="80">
+      <span class="hero__greeting">Hi, I'm</span>
+      <span class="hero__name gradient-text">{{ profile.name }}</span>
     </h1>
 
-    <!-- Statement line with the rotating role -->
-    <div class="statement" appReveal [revealDelay]="220">
-      <p class="statement__text">
-        I build <span class="serif">fast, accessible</span> interfaces for complex domains —
-        <span class="rotator" aria-live="polite">
-          @for (role of profile.roles; track role; let i = $index) {
-            <span class="rotator__item" [class.is-on]="roleIndex() === i" [attr.aria-hidden]="roleIndex() !== i">
-              {{ role }}
-            </span>
-          }
-        </span>
-        <span class="rotator__caret" aria-hidden="true"></span>
-      </p>
+    <!-- Rotating role line -->
+    <div class="rotator" appReveal [revealDelay]="150" aria-live="polite">
+      <!-- The rotator cycles job titles, so the lead-in has to
+           agree with a title, not with a thing being built. -->
+      <span class="rotator__prefix">I work as a</span>
+      <span class="rotator__viewport">
+        @for (role of profile.roles; track role; let i = $index) {
+          <span class="rotator__item" [class.is-active]="roleIndex() === i" [attr.aria-hidden]="roleIndex() !== i">
+            {{ role }}
+          </span>
+        }
+      </span>
+      <span class="rotator__caret" aria-hidden="true"></span>
     </div>
 
-    <!-- Actions + summary -->
-    <div class="hero__row">
-      <div class="hero__actions" appReveal [revealDelay]="300">
-        <button type="button" class="btn" (click)="openHire()">
-          <app-icon name="mail" [size]="17" />
-          Hire me
-        </button>
-        <button type="button" class="btn btn--ghost" (click)="go('experience')">
-          See the work
-          <app-icon name="arrow-down" [size]="16" />
-        </button>
-      </div>
+    <p class="hero__summary" appReveal [revealDelay]="220">
+      {{ profile.summary }}
+    </p>
 
-      <p class="hero__summary" appReveal [revealDelay]="360">
-        Frontend Engineer with 3 years shipping production Angular — telehealth portals, real-time analytics and
-        HIPAA / SOC&nbsp;2 / GDPR-aligned platforms.
-      </p>
+    <!-- Actions -->
+    <div class="hero__actions" appReveal [revealDelay]="300">
+      <button type="button" class="btn" (click)="openHire()">
+        <app-icon name="mail" [size]="17" />
+        Let's work together
+      </button>
+      <button type="button" class="btn btn--ghost" (click)="go('experience')">
+        <app-icon name="arrow" [size]="17" />
+        View my work
+      </button>
     </div>
+
+    <!-- Quick facts -->
+    <ul class="hero__facts" appReveal [revealDelay]="360">
+      <li>
+        <app-icon name="pin" [size]="15" />
+        {{ profile.location }}
+      </li>
+      <li>
+        <a [href]="profile.linkedin" target="_blank" rel="noopener noreferrer">
+          <app-icon name="linkedin" [size]="15" />
+          LinkedIn
+        </a>
+      </li>
+      <li>
+        <a [href]="'mailto:' + profile.email">
+          <app-icon name="mail" [size]="15" />
+          {{ profile.email }}
+        </a>
+      </li>
+    </ul>
+
+    <!-- Metrics -->
+    <dl class="metrics">
+      @for (m of metrics; track m.label; let i = $index) {
+        <div class="metric" appReveal="scale" [revealDelay]="420 + i * 90">
+          <dt class="metric__value">
+            @if (m.prefix) {
+              <span class="metric__affix">{{ m.prefix }}</span>
+            }
+            <span [appCountUp]="m.value">0</span>
+            <span class="metric__affix">{{ m.suffix }}</span>
+          </dt>
+          <dd class="metric__label">{{ m.label }}</dd>
+        </div>
+      }
+    </dl>
   </div>
-
-  <!-- Metrics strip, set as an editorial table -->
-  <dl class="stats container">
-    @for (m of metrics; track m.label; let i = $index) {
-      <div class="stat" appReveal [revealDelay]="420 + i * 80">
-        <dt class="stat__v">
-          @if (m.prefix) {
-            <span class="stat__affix">{{ m.prefix }}</span>
-          }
-          <span [appCountUp]="m.value">0</span>
-          <span class="stat__affix">{{ m.suffix }}</span>
-        </dt>
-        <dd class="stat__l">{{ m.label }}</dd>
-      </div>
-    }
-  </dl>
 
   <!-- Tech marquee -->
   <div class="marquee" aria-hidden="true">
     <div class="marquee__track">
       @for (item of marquee; track $index) {
         <span class="marquee__item">{{ item }}</span>
-        <span class="marquee__sep">/</span>
+        <span class="marquee__sep">◆</span>
       }
     </div>
   </div>
 
-  <button type="button" class="cue" (click)="go('about')" aria-label="Scroll to About">
-    <span class="cue__line" aria-hidden="true"></span>
-    <span class="cue__txt">Scroll</span>
+  <!-- Scroll cue -->
+  <button type="button" class="scroll-cue" (click)="go('about')" aria-label="Scroll to About section">
+    <span class="scroll-cue__mouse" aria-hidden="true">
+      <span class="scroll-cue__wheel"></span>
+    </span>
+    <span class="scroll-cue__text">Scroll</span>
   </button>
 </section>

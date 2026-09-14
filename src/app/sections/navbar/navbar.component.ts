@@ -32,12 +32,12 @@ export class NavbarComponent {
     this.scrollService.scrollTo(id);
   }
 
-  protected toggleMenu(): void {
-    this.menuOpen.update((v) => !v);
-  }
-
   protected openHire(): void {
     this.menuOpen.set(false);
     this.hire.open();
+  }
+
+  protected toggleMenu(): void {
+    this.menuOpen.update((v) => !v);
   }
 }

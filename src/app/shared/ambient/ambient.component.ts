@@ -1,23 +1,21 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
- * Backdrop: a ruled column grid, one low glow anchored behind the
- * hero, and a grain layer. Decorative and inert.
- *
- * Deliberately restrained — the drifting colour blobs this used to
- * draw are the single most recognisable "portfolio template" cue.
+ * Ambient backdrop: three slowly drifting colour blobs, a fine
+ * grid, and a grain layer. Purely decorative and inert to
+ * pointer events; it sits behind all content.
  */
 @Component({
   selector: 'app-ambient',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="amb" aria-hidden="true">
-      <div class="amb__cols">
-        <span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <div class="amb__glow"></div>
-      <div class="amb__grain"></div>
+    <div class="ambient" aria-hidden="true">
+      <div class="ambient__blob ambient__blob--1"></div>
+      <div class="ambient__blob ambient__blob--2"></div>
+      <div class="ambient__blob ambient__blob--3"></div>
+      <div class="ambient__grid"></div>
+      <div class="ambient__grain"></div>
     </div>
   `,
   styleUrl: './ambient.component.scss',

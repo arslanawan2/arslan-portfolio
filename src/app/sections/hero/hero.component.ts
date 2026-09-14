@@ -33,9 +33,10 @@ export class HeroComponent implements OnInit {
 
   protected readonly profile = PROFILE;
   protected readonly metrics = METRICS;
-  /** Doubled so the marquee can loop seamlessly at -50%. */
+  /** Duplicated so the marquee can loop seamlessly at -50%. */
   protected readonly marquee = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS];
 
+  /** Index of the role currently shown in the rotator. */
   protected readonly roleIndex = signal(0);
 
   ngOnInit(): void {
@@ -46,19 +47,21 @@ export class HeroComponent implements OnInit {
       return;
     }
 
+    // Rotate the job title every 2.6s, outside Angular so the
+    // timer itself does not schedule change detection.
     this.zone.runOutsideAngular(() => {
       const id = setInterval(() => {
         this.zone.run(() => this.roleIndex.update((i) => (i + 1) % this.profile.roles.length));
-      }, 2800);
+      }, 2600);
       this.destroyRef.onDestroy(() => clearInterval(id));
     });
   }
 
-  protected go(id: string): void {
-    this.scrollService.scrollTo(id);
-  }
-
   protected openHire(): void {
     this.hire.open();
+  }
+
+  protected go(id: string): void {
+    this.scrollService.scrollTo(id);
   }
 }

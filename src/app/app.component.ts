@@ -43,8 +43,8 @@ export class AppComponent implements OnInit {
   // Instantiated here so the theme is applied as early as possible.
   private readonly theme = inject(ThemeService);
 
-  /** Holds the page back until the intro curtain has lifted, so
-   *  the hero's entrance is not spent behind the overlay. */
+  /** Holds the page back until the intro curtain lifts, so the
+   *  hero's entrance is not spent behind the overlay. */
   protected readonly ready = signal(false);
 
   ngOnInit(): void {
@@ -56,8 +56,7 @@ export class AppComponent implements OnInit {
 
     // Failsafe: the shell starts hidden and is revealed by the
     // intro's `completed` output. If that never arrives the page
-    // would stay blank, so reveal it regardless after the intro's
-    // longest possible run.
+    // would stay blank, so reveal it regardless.
     const failsafe = setTimeout(() => this.ready.set(true), 4000);
     this.destroyRef.onDestroy(() => clearTimeout(failsafe));
   }

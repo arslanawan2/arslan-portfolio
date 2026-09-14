@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { PROFILE } from '../../core/data/portfolio.data';
-import { RevealDirective } from '../../core/directives/reveal.directive';
 import { HireDialogService } from '../../shared/hire-dialog/hire-dialog.service';
+import { RevealDirective } from '../../core/directives/reveal.directive';
 import { IconComponent } from '../../shared/icon/icon.component';
+import { SectionHeadingComponent } from '../../shared/section-heading/section-heading.component';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [IconComponent, RevealDirective],
+  imports: [IconComponent, RevealDirective, SectionHeadingComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',

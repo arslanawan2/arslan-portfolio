@@ -4,8 +4,8 @@
   "description": "Portfolio of Arslan Awan, Frontend Engineer specialising in Angular.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0a0c",
-  "theme_color": "#0a0a0c",
+  "background_color": "#080a12",
+  "theme_color": "#080a12",
   "icons": [
     {
       "src": "favicon.svg",

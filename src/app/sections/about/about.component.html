@@ -1,59 +1,62 @@
 <section class="about">
   <div class="container">
     <app-section-heading
-      index="01"
       eyebrow="About"
-      title="Interfaces for"
+      title="Engineering interfaces for"
       accent="complex domains"
       lead="Three years turning dense, regulated and integration-heavy problem spaces into Angular front-ends people can actually move through."
     />
 
-    <!-- Bento: one wide narrative cell, then supporting cells -->
-    <div class="bento">
-      <article class="cell cell--story" appReveal>
-        <p class="cell__lede">
-          I'm a Frontend Engineer in {{ profile.location }}, currently at
-          <span class="warm">Z-Axiss SMC Pvt. Ltd</span>.
+    <div class="about__grid">
+      <!-- Narrative -->
+      <div class="about__story" appReveal="left">
+        <p class="about__lede">
+          I'm a Frontend Engineer based in {{ profile.location }}, currently at Z-Axiss SMC Pvt. Ltd.
         </p>
         <p>
-          Most of my work lives where the UI meets something complicated — four role-specific telehealth portals on
-          one shared component architecture, sixty-plus real-time graphs migrated off Looker Studio, or a governance
-          platform whose rule configurators had to satisfy HIPAA, SOC&nbsp;2 and GDPR at once.
+          Most of my work lives where the UI meets something complicated — four role-specific telehealth portals on one
+          shared component architecture, sixty-plus real-time graphs migrated off Looker Studio, or a governance
+          platform whose rule configurators had to satisfy HIPAA, SOC&nbsp;2 and GDPR at the same time.
         </p>
         <p>
           I care about the parts users feel: how fast a data-heavy page settles, whether a multi-step form forgives a
-          mistake, and whether the whole thing still works with a keyboard.
+          mistake, and whether the whole thing still works with a keyboard. I ship in two-week Agile sprints and hold
+          the quality line through peer review and documentation.
         </p>
-      </article>
 
-      @for (p of pillars; track p.title; let i = $index) {
-        <article class="cell cell--pillar" appReveal [revealDelay]="i * 90">
-          <span class="cell__icon"><app-icon [name]="p.icon" [size]="20" /></span>
-          <h3 class="cell__title">{{ p.title }}</h3>
-          <p class="cell__body">{{ p.body }}</p>
-          <span class="cell__n" aria-hidden="true">0{{ i + 1 }}</span>
-        </article>
-      }
+        <!-- Education + languages -->
+        <div class="about__meta">
+          <div class="meta-card">
+            <span class="meta-card__icon"><app-icon name="cap" [size]="17" /></span>
+            <div>
+              <p class="meta-card__title">{{ education.degree }}</p>
+              <p class="meta-card__sub">{{ education.institution }} · {{ education.period }}</p>
+            </div>
+          </div>
+          <div class="meta-card">
+            <span class="meta-card__icon"><app-icon name="globe" [size]="17" /></span>
+            <div>
+              <p class="meta-card__title">Languages</p>
+              <p class="meta-card__sub">
+                @for (l of languages; track l.name; let last = $last) {
+                  {{ l.name }} — {{ l.level }}{{ last ? '' : ' · ' }}
+                }
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <article class="cell cell--edu" appReveal [revealDelay]="120">
-        <span class="cell__icon"><app-icon name="cap" [size]="20" /></span>
-        <h3 class="cell__title">{{ education.degree }}</h3>
-        <p class="cell__body">{{ education.institution }}</p>
-        <p class="cell__meta">{{ education.period }}</p>
-      </article>
-
-      <article class="cell cell--lang" appReveal [revealDelay]="180">
-        <span class="cell__icon"><app-icon name="globe" [size]="20" /></span>
-        <h3 class="cell__title">Languages</h3>
-        <ul class="langs">
-          @for (l of languages; track l.name) {
-            <li>
-              <span>{{ l.name }}</span>
-              <i>{{ l.level }}</i>
-            </li>
-          }
-        </ul>
-      </article>
+      <!-- Pillars -->
+      <ul class="pillars">
+        @for (p of pillars; track p.title; let i = $index) {
+          <li class="pillar" appTilt appReveal="right" [revealDelay]="i * 110">
+            <span class="pillar__icon"><app-icon [name]="p.icon" [size]="21" /></span>
+            <h3 class="pillar__title">{{ p.title }}</h3>
+            <p class="pillar__body">{{ p.body }}</p>
+          </li>
+        }
+      </ul>
     </div>
   </div>
 </section>

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EDUCATION, LANGUAGES, PROFILE } from '../../core/data/portfolio.data';
 import { RevealDirective } from '../../core/directives/reveal.directive';
+import { TiltDirective } from '../../core/directives/tilt.directive';
 import { IconComponent } from '../../shared/icon/icon.component';
 import { SectionHeadingComponent } from '../../shared/section-heading/section-heading.component';
 
@@ -13,7 +14,7 @@ interface Pillar {
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [IconComponent, RevealDirective, SectionHeadingComponent],
+  imports: [IconComponent, RevealDirective, TiltDirective, SectionHeadingComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss',

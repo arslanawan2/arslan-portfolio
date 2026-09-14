@@ -19,30 +19,29 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--nav-h) + 20px);
+  /* Anchor jumps must clear the fixed navbar. */
+  scroll-padding-top: calc(var(--nav-h) + 18px);
 }
 
 body {
   min-height: 100dvh;
-  font-family: var(--f-body);
-  font-size: var(--t-base);
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
   line-height: 1.65;
   color: var(--text);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  /* Theme flips should feel deliberate, not instant. */
   transition:
-    background-color var(--d-base) var(--e-out),
-    color var(--d-base) var(--e-out);
-}
-
-/* Locks scrolling while the intro or a dialog is open. */
-body.is-locked {
-  overflow: hidden;
+    background-color var(--d-base) var(--ease-out),
+    color var(--d-base) var(--ease-out);
 }
 
 img,
+picture,
 svg,
 canvas {
   display: block;
@@ -61,7 +60,6 @@ button {
   cursor: pointer;
   background: none;
   border: none;
-  padding: 0;
 }
 
 a {
@@ -73,10 +71,10 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--f-display);
-  font-weight: 700;
-  line-height: 1.04;
-  letter-spacing: -0.035em;
+  font-family: var(--font-display);
+  font-weight: 650;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
   text-wrap: balance;
 }
 
@@ -86,7 +84,7 @@ p {
 
 ::selection {
   background: var(--accent);
-  color: var(--on-accent);
+  color: var(--text-on-accent);
 }
 
 /* ---- Scrollbar ---- */
@@ -96,17 +94,18 @@ p {
 }
 
 ::-webkit-scrollbar {
-  width: 11px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--surface-3);
-  border: 3px solid var(--bg);
+  background: var(--border-strong);
   border-radius: var(--r-pill);
+  border: 2px solid var(--bg);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -114,30 +113,35 @@ p {
 }
 
 /* ============================================================
-   UTILITIES
+   SHARED UTILITIES
    ============================================================ */
 
 .container {
   @include container;
 }
 
+.container--narrow {
+  @include container(var(--maxw-narrow));
+}
+
 .sr-only {
   @include visually-hidden;
 }
 
+/* Skip link for keyboard users — first tab stop. */
 .skip-link {
   position: absolute;
   top: 0;
   left: 50%;
   z-index: 999;
-  padding: 0.75rem 1.4rem;
-  font-size: var(--t-sm);
+  padding: 0.7rem 1.3rem;
+  font-size: var(--fs-sm);
   font-weight: 600;
-  color: var(--on-accent);
+  color: var(--text-on-accent);
   background: var(--accent);
   border-radius: 0 0 var(--r-md) var(--r-md);
   transform: translate(-50%, -105%);
-  transition: transform var(--d-base) var(--e-spring);
+  transition: transform var(--d-base) var(--ease-spring);
 
   &:focus-visible {
     transform: translate(-50%, 0);
@@ -145,58 +149,54 @@ p {
   }
 }
 
-/* Emphasis words inside headings. */
-.serif {
-  @include serif-accent;
-  color: var(--accent);
-}
-
-.warm {
-  color: var(--warm);
+section[id] {
+  position: relative;
+  scroll-margin-top: var(--nav-h);
 }
 
 /* ---- Buttons ---- */
 .btn {
+  --btn-bg: var(--accent);
+  --btn-fg: var(--text-on-accent);
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.6rem;
-  padding: 0.95rem 1.7rem;
-  font-family: var(--f-display);
-  font-size: var(--t-sm);
+  gap: 0.55rem;
+  padding: 0.82rem 1.6rem;
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
   font-weight: 600;
-  letter-spacing: -0.005em;
-  color: var(--on-accent);
-  background: var(--accent);
-  border: 1px solid var(--accent);
+  letter-spacing: 0.01em;
+  color: var(--btn-fg);
+  background: var(--btn-bg);
   border-radius: var(--r-pill);
   overflow: hidden;
   isolation: isolate;
   transition:
-    transform var(--d-fast) var(--e-spring),
-    box-shadow var(--d-base) var(--e-out),
-    background-color var(--d-base) var(--e-out),
-    color var(--d-base) var(--e-out);
+    transform var(--d-fast) var(--ease-spring),
+    box-shadow var(--d-base) var(--ease-out),
+    background-color var(--d-base) var(--ease-out);
   @include focus-ring;
 
+  /* Sheen sweep on hover. */
   &::after {
     content: '';
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, 0.3) 50%, transparent 80%);
+    background: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, 0.28) 50%, transparent 80%);
     transform: translate3d(-120%, 0, 0);
   }
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-accent);
+    box-shadow: var(--shadow-glow);
   }
 
   @include motion-safe {
     &:hover::after {
-      animation: shimmer 800ms var(--e-out);
+      animation: shimmer 760ms var(--ease-out);
     }
   }
 
@@ -206,39 +206,41 @@ p {
 }
 
 .btn--ghost {
-  color: var(--text);
-  background: transparent;
-  border-color: var(--border-strong);
+  --btn-bg: transparent;
+  --btn-fg: var(--text);
+  border: 1px solid var(--border-strong);
 
   &:hover {
-    color: var(--accent);
+    --btn-bg: var(--accent-soft);
     border-color: var(--accent);
-    background: var(--accent-soft);
+    color: var(--accent);
     box-shadow: none;
   }
 }
 
-/* ---- Section index label: "01 / Experience" ---- */
-.sec-tag {
+/* ---- Eyebrow label above section titles ---- */
+.eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.7rem;
-  font-family: var(--f-mono);
-  font-size: var(--t-xs);
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
   font-weight: 500;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--text-subtle);
+  color: var(--accent);
 
-  b {
-    font-weight: 500;
-    color: var(--accent);
-  }
-
-  &::after {
+  &::before {
     content: '';
-    width: clamp(28px, 6vw, 70px);
+    width: 22px;
     height: 1px;
-    background: var(--border-strong);
+    background: currentColor;
+  }
+}
+
+.gradient-text {
+  @include gradient-text;
+  @include motion-safe {
+    animation: gradient-pan 7s var(--ease-in-out) infinite;
   }
 }

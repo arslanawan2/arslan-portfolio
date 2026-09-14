@@ -1,26 +1,24 @@
 <section class="skills">
   <div class="container">
     <app-section-heading
-      index="03"
       eyebrow="Skills"
       title="The toolkit behind"
       accent="the work"
       lead="What I reach for day to day — grouped the way I actually use it."
+      [center]="true"
     />
 
-    <!-- Numbered rows, not floating cards -->
-    <div class="rows">
+    <div class="grid">
       @for (group of groups; track group.title; let g = $index) {
-        <article class="row" appReveal [revealDelay]="g * 70">
-          <div class="row__head">
-            <span class="row__icon"><app-icon [name]="group.icon" [size]="18" /></span>
-            <h3 class="row__title">{{ group.title }}</h3>
-            <span class="row__count">{{ group.skills.length }}</span>
-          </div>
+        <article class="card" appTilt appReveal="scale" [revealDelay]="g * 80">
+          <header class="card__head">
+            <span class="card__icon"><app-icon [name]="group.icon" [size]="19" /></span>
+            <h3 class="card__title">{{ group.title }}</h3>
+          </header>
 
           <ul class="chips">
-            @for (skill of group.skills; track skill) {
-              <li class="chip">{{ skill }}</li>
+            @for (skill of group.skills; track skill; let i = $index) {
+              <li class="chip" appReveal [revealDelay]="g * 80 + i * 35">{{ skill }}</li>
             }
           </ul>
         </article>

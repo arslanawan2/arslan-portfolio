@@ -10,7 +10,7 @@ import {
   input,
 } from '@angular/core';
 
-export type RevealKind = '' | 'left' | 'right' | 'scale' | 'mask';
+export type RevealKind = '' | 'left' | 'right' | 'scale';
 
 /**
  * Reveals an element the first time it enters the viewport.
@@ -66,8 +66,7 @@ export class RevealDirective implements OnDestroy {
     const node = this.el.nativeElement;
     const delay = this.revealDelay();
     if (delay) {
-      // Consumed by the [data-reveal] transition-delay.
-      this.renderer.setStyle(node, '--rv-delay', `${delay}ms`);
+      this.renderer.setStyle(node, '--reveal-delay', `${delay}ms`);
     }
     this.renderer.addClass(node, 'is-visible');
   }

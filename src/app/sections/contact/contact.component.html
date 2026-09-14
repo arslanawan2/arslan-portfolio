@@ -1,62 +1,81 @@
 <section class="contact">
   <div class="container">
-    <div class="wrap">
-      <p class="sec-tag" appReveal><b>05</b> Contact</p>
+    <div class="panel" appReveal="scale">
+      <div class="panel__glow" aria-hidden="true"></div>
 
-      <!-- Oversized closing statement -->
-      <h2 class="big" appReveal="mask" [revealDelay]="60">
-        <span>Let's build something <em class="serif">worth using</em></span>
-      </h2>
+      <app-section-heading
+        eyebrow="Contact"
+        title="Let's build something"
+        accent="fast and accessible"
+        lead="Open to Frontend and Angular roles. The quickest way to reach me is email — I reply to everything."
+        [center]="true"
+      />
 
-      <p class="lede" appReveal [revealDelay]="160">
-        Open to Frontend and Angular roles. Tell me about the work and I'll get back to you — I reply to everything.
-      </p>
-
-      <div class="cta-row" appReveal [revealDelay]="220">
+      <!-- Primary actions -->
+      <div class="panel__actions" appReveal [revealDelay]="120">
         <button type="button" class="btn" (click)="openHire()">
           <app-icon name="mail" [size]="17" />
-          Start a conversation
+          Email me
         </button>
         <a class="btn btn--ghost" [href]="profile.linkedin" target="_blank" rel="noopener noreferrer">
           <app-icon name="linkedin" [size]="17" />
-          LinkedIn
-          <app-icon name="arrow-up-right" [size]="13" />
+          Connect on LinkedIn
+          <app-icon name="external" [size]="13" />
         </a>
       </div>
 
-      <!-- Copyable details as a ruled list -->
-      <ul class="rows">
-        <li class="drow" appReveal [revealDelay]="260">
-          <span class="drow__k">
-            <app-icon name="mail" [size]="15" />
-            Email
-          </span>
-          <a class="drow__v" [href]="'mailto:' + profile.email">{{ profile.email }}</a>
-          <button type="button" class="drow__c" (click)="copy(profile.email, 'email')" aria-label="Copy email address">
-            <app-icon [name]="copied() === 'email' ? 'check' : 'copy'" [size]="14" />
+      <!-- Copyable details -->
+      <ul class="details">
+        <li class="detail" appReveal [revealDelay]="180">
+          <span class="detail__icon"><app-icon name="mail" [size]="17" /></span>
+          <div class="detail__body">
+            <span class="detail__label">Email</span>
+            <a class="detail__value" [href]="'mailto:' + profile.email">{{ profile.email }}</a>
+          </div>
+          <button
+            type="button"
+            class="detail__copy"
+            (click)="copy(profile.email, 'email')"
+            [attr.aria-label]="'Copy email address'"
+          >
+            @if (copied() === 'email') {
+              <app-icon name="check" [size]="15" />
+            } @else {
+              <app-icon name="copy" [size]="15" />
+            }
           </button>
         </li>
 
-        <li class="drow" appReveal [revealDelay]="310">
-          <span class="drow__k">
-            <app-icon name="phone" [size]="15" />
-            Phone
-          </span>
-          <a class="drow__v" [href]="telHref">{{ profile.phone }}</a>
-          <button type="button" class="drow__c" (click)="copy(profile.phone, 'phone')" aria-label="Copy phone number">
-            <app-icon [name]="copied() === 'phone' ? 'check' : 'copy'" [size]="14" />
+        <li class="detail" appReveal [revealDelay]="240">
+          <span class="detail__icon"><app-icon name="phone" [size]="17" /></span>
+          <div class="detail__body">
+            <span class="detail__label">Phone</span>
+            <a class="detail__value" [href]="telHref">{{ profile.phone }}</a>
+          </div>
+          <button
+            type="button"
+            class="detail__copy"
+            (click)="copy(profile.phone, 'phone')"
+            [attr.aria-label]="'Copy phone number'"
+          >
+            @if (copied() === 'phone') {
+              <app-icon name="check" [size]="15" />
+            } @else {
+              <app-icon name="copy" [size]="15" />
+            }
           </button>
         </li>
 
-        <li class="drow" appReveal [revealDelay]="360">
-          <span class="drow__k">
-            <app-icon name="pin" [size]="15" />
-            Location
-          </span>
-          <span class="drow__v">{{ profile.location }}</span>
+        <li class="detail" appReveal [revealDelay]="300">
+          <span class="detail__icon"><app-icon name="pin" [size]="17" /></span>
+          <div class="detail__body">
+            <span class="detail__label">Location</span>
+            <span class="detail__value">{{ profile.location }}</span>
+          </div>
         </li>
       </ul>
 
+      <!-- Live region announcing the copy result -->
       <p class="sr-only" role="status" aria-live="polite">
         @if (copied()) {
           {{ copied() }} copied to clipboard

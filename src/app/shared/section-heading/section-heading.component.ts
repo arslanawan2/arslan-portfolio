@@ -7,31 +7,26 @@ import { RevealDirective } from '../../core/directives/reveal.directive';
   imports: [RevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <header class="head">
-      <p class="sec-tag" appReveal><b>{{ index() }}</b> {{ eyebrow() }}</p>
-      <div class="head__body">
-        <h2 class="head__title" appReveal="mask" [revealDelay]="60">
-          <span
-            >{{ title() }}
-            @if (accent()) {
-              <em class="serif">{{ accent() }}</em>
-            }</span
-          >
-        </h2>
-        @if (lead()) {
-          <p class="head__lead" appReveal [revealDelay]="160">{{ lead() }}</p>
+    <header class="head" [class.head--center]="center()">
+      <p class="eyebrow" appReveal>{{ eyebrow() }}</p>
+      <h2 class="head__title" appReveal [revealDelay]="70">
+        {{ title() }}
+        @if (accent()) {
+          <span class="gradient-text">{{ accent() }}</span>
         }
-      </div>
+      </h2>
+      @if (lead()) {
+        <p class="head__lead" appReveal [revealDelay]="140">{{ lead() }}</p>
+      }
     </header>
   `,
   styleUrl: './section-heading.component.scss',
 })
 export class SectionHeadingComponent {
-  /** Two-digit section number, e.g. "01". */
-  readonly index = input.required<string>();
   readonly eyebrow = input.required<string>();
   readonly title = input.required<string>();
-  /** Trailing words set in the serif italic. */
+  /** Optional trailing words rendered in the brand gradient. */
   readonly accent = input('');
   readonly lead = input('');
+  readonly center = input(false);
 }
