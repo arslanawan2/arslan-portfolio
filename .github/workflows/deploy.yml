@@ -45,11 +45,26 @@ jobs:
       - name: Unit tests
         run: pnpm exec ng test --watch=false --browsers=ChromeHeadlessCI
 
-      # base-href must match the Pages sub-path, otherwise every
-      # asset 404s. For arslanawan2/arslan-portfolio the site is
-      # served from /arslan-portfolio/.
+      # base-href must match the path Pages serves from, or every
+      # asset 404s. Derived rather than hardcoded so renaming the
+      # repo (or adding a custom domain) needs no workflow edit:
+      #   <owner>.github.io repo, or a CNAME  -> served from /
+      #   any other repo name                 -> served from /<repo>/
+      - name: Resolve base href
+        id: base
+        run: |
+          owner=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          repo=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
+          if [ "$repo" = "$owner.github.io" ] || [ -f public/CNAME ]; then
+            href="/"
+          else
+            href="/$repo/"
+          fi
+          echo "href=$href" >> "$GITHUB_OUTPUT"
+          echo "Serving from $href"
+
       - name: Build
-        run: pnpm exec ng build --configuration production --base-href /arslan-portfolio/
+        run: pnpm exec ng build --configuration production --base-href "${{ steps.base.outputs.href }}"
 
       - name: Add SPA fallback and disable Jekyll
         run: |

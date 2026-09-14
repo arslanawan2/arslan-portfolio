@@ -38,5 +38,19 @@ jobs:
       - name: Unit tests
         run: pnpm exec ng test --watch=false --browsers=ChromeHeadlessCI
 
+      # Mirrors the resolution in deploy.yml so CI builds the same
+      # way the deploy will.
+      - name: Resolve base href
+        id: base
+        run: |
+          owner=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          repo=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
+          if [ "$repo" = "$owner.github.io" ] || [ -f public/CNAME ]; then
+            href="/"
+          else
+            href="/$repo/"
+          fi
+          echo "href=$href" >> "$GITHUB_OUTPUT"
+
       - name: Production build
-        run: pnpm exec ng build --configuration production --base-href /arslan-portfolio/
+        run: pnpm exec ng build --configuration production --base-href "${{ steps.base.outputs.href }}"
