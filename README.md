@@ -68,10 +68,37 @@ Templates read from it, so changing a job bullet or adding a skill never means t
 
 ---
 
+## Deployment
+
+Live at **https://arslanawan2.github.io/arslan-portfolio/**
+
+Every push to `main` runs [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml): install →
+unit tests → production build → publish to GitHub Pages. A failing test stops the deploy, so `main`
+can't go live broken.
+
+`.github/workflows/ci.yml` runs the same build and tests on `develop`, on `feature/**` pushes, and on
+pull requests — so problems surface before they reach `main`.
+
+### One-time setup
+
+In the repo: **Settings → Pages → Build and deployment → Source: _GitHub Actions_**.
+(Pages on a private repo needs a paid plan; public repos are free.)
+
+### If you rename the repo or add a custom domain
+
+The build passes `--base-href /arslan-portfolio/`, which must match the path the site is served
+from. Update it in **both** workflows if that changes:
+
+- repo renamed → `--base-href /<new-repo-name>/`
+- `arslanawan2.github.io` repo, or a custom domain → `--base-href /`
+
+The workflow also copies `index.html` to `404.html` so deep links survive a refresh — GitHub Pages
+has no SPA rewrite rule, so without it `/arslan-portfolio/#contact` reloads into a 404.
+
 ## Branches
 
 | Branch | Purpose |
 | --- | --- |
-| `main` | Production. Merged from `develop` via PR. |
+| `main` | Production — every push deploys to GitHub Pages. |
 | `develop` | Integration branch. |
 | `feature/*` | Cut from `develop`, merged back into it. |
