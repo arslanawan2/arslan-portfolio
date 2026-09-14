@@ -70,7 +70,7 @@ Templates read from it, so changing a job bullet or adding a skill never means t
 
 ## Deployment
 
-Live at **https://arslanawan2.github.io/arslan-portfolio/**
+Live at **https://arslanawan2.github.io**
 
 Every push to `main` runs [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml): install →
 unit tests → production build → publish to GitHub Pages. A failing test stops the deploy, so `main`
@@ -84,16 +84,30 @@ pull requests — so problems surface before they reach `main`.
 In the repo: **Settings → Pages → Build and deployment → Source: _GitHub Actions_**.
 (Pages on a private repo needs a paid plan; public repos are free.)
 
-### If you rename the repo or add a custom domain
+### The short URL
 
-The build passes `--base-href /arslan-portfolio/`, which must match the path the site is served
-from. Update it in **both** workflows if that changes:
+A repo named `<username>.github.io` is served from the root, so the site is
+`arslanawan2.github.io` rather than `arslanawan2.github.io/<repo>/`.
 
-- repo renamed → `--base-href /<new-repo-name>/`
-- `arslanawan2.github.io` repo, or a custom domain → `--base-href /`
+Nothing needs editing if the repo is renamed: both workflows **derive** `--base-href` from the repo
+name at build time.
+
+| Repo | Served from | `--base-href` |
+| --- | --- | --- |
+| `arslanawan2.github.io` | root | `/` |
+| any other name | sub-path | `/<repo-name>/` |
+| any name + `public/CNAME` | root | `/` |
+
+Getting this wrong is what produces a blank white page — the HTML loads but every asset 404s.
+
+### Adding a custom domain later
+
+Put the bare domain in `public/CNAME` (one line, e.g. `arslanawan.dev`), point DNS at GitHub, and set
+it under Settings → Pages. The workflows already treat the presence of that file as "serve from
+root", so no other change is needed.
 
 The workflow also copies `index.html` to `404.html` so deep links survive a refresh — GitHub Pages
-has no SPA rewrite rule, so without it `/arslan-portfolio/#contact` reloads into a 404.
+has no SPA rewrite rule, so without it a reload on `#contact` would land on a 404.
 
 ## Branches
 
