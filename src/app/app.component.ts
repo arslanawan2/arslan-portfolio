@@ -11,6 +11,7 @@ import { HeroComponent } from './sections/hero/hero.component';
 import { NavbarComponent } from './sections/navbar/navbar.component';
 import { SkillsComponent } from './sections/skills/skills.component';
 import { AmbientComponent } from './shared/ambient/ambient.component';
+import { ChatComponent } from './shared/chat/chat.component';
 import { HireDialogComponent } from './shared/hire-dialog/hire-dialog.component';
 import { IntroComponent } from './shared/intro/intro.component';
 
@@ -31,6 +32,7 @@ import { IntroComponent } from './shared/intro/intro.component';
     ContactComponent,
     FooterComponent,
     HireDialogComponent,
+    ChatComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.component.html',
