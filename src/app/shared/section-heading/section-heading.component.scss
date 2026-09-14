@@ -1,0 +1,33 @@
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 3.2rem;
+}
+
+.head--center {
+  align-items: center;
+  text-align: center;
+
+  .head__lead {
+    margin-inline: auto;
+  }
+}
+
+.head__title {
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+
+  span {
+    /* Keeps the gradient half on its own line only when it must. */
+    white-space: nowrap;
+  }
+}
+
+.head__lead {
+  max-width: 62ch;
+  font-size: var(--fs-md);
+  color: var(--text-muted);
+  line-height: 1.72;
+}

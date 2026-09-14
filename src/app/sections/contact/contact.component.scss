@@ -1,0 +1,128 @@
+@use '../../../styles/mixins' as *;
+
+.contact {
+  padding-block: var(--section-y);
+}
+
+/* ---- Panel ---- */
+.panel {
+  position: relative;
+  padding: clamp(2.2rem, 5vw, 4rem) clamp(1.4rem, 4vw, 3.5rem);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  @include glass(16px);
+}
+
+/* Soft brand wash behind the panel content. */
+.panel__glow {
+  position: absolute;
+  top: -45%;
+  left: 50%;
+  width: min(120%, 900px);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, var(--glow-1), transparent 62%);
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: -1.4rem;
+}
+
+/* ---- Detail rows ---- */
+.details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0.85rem;
+  padding: 0;
+  margin: 2.4rem 0 0;
+  list-style: none;
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.95rem 1.05rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  transition:
+    border-color var(--d-base) var(--ease-out),
+    transform var(--d-base) var(--ease-out);
+
+  &:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+  }
+}
+
+.detail__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: var(--r-sm);
+}
+
+.detail__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.detail__label {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+.detail__value {
+  font-size: var(--fs-sm);
+  font-weight: 550;
+  color: var(--text);
+  /* Long emails must not blow out the grid column. */
+  overflow-wrap: anywhere;
+  transition: color var(--d-fast) var(--ease-out);
+  @include focus-ring(2px);
+
+  &:is(a):hover {
+    color: var(--accent);
+  }
+}
+
+.detail__copy {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  color: var(--text-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  transition:
+    color var(--d-fast) var(--ease-out),
+    border-color var(--d-fast) var(--ease-out),
+    background-color var(--d-fast) var(--ease-out),
+    transform var(--d-fast) var(--ease-spring);
+  @include focus-ring(2px);
+
+  &:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    transform: scale(1.08);
+  }
+}

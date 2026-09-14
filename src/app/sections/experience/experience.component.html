@@ -1,0 +1,48 @@
+﻿<section class="experience">
+  <div class="container">
+    <app-section-heading
+      eyebrow="Experience"
+      title="What I've"
+      accent="shipped"
+      lead="Production work across telehealth, analytics, AI governance and subscription platforms."
+    />
+
+    <ol class="timeline">
+      @for (role of roles; track role.company) {
+        <li class="tl-item">
+          <!-- Rail marker -->
+          <span class="tl-marker" aria-hidden="true">
+            <span class="tl-dot" [class.is-current]="role.current"></span>
+          </span>
+
+          <article class="tl-card" appReveal="right">
+            <header class="tl-head">
+              <div>
+                <h3 class="tl-title">{{ role.title }}</h3>
+                <p class="tl-company">
+                  {{ role.company }}
+                  @if (role.current) {
+                    <span class="tl-badge">Current</span>
+                  }
+                </p>
+              </div>
+              <p class="tl-period">
+                <app-icon name="spark" [size]="13" />
+                {{ role.period }}
+              </p>
+            </header>
+
+            <ul class="tl-list">
+              @for (h of role.highlights; track h.text; let i = $index) {
+                <li class="tl-bullet" appReveal [revealDelay]="i * 70">
+                  <span class="tl-bullet__dot" aria-hidden="true"></span>
+                  <span [innerHTML]="h.text | emphasize: h.emphasis"></span>
+                </li>
+              }
+            </ul>
+          </article>
+        </li>
+      }
+    </ol>
+  </div>
+</section>

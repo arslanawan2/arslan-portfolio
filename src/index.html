@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Arslan Awan — Frontend Engineer & Angular Developer</title>
+    <meta
+      name="description"
+      content="Frontend Engineer with 3 years building production Angular applications with TypeScript, RxJS and Signals — telehealth platforms, real-time analytics dashboards and HIPAA / SOC 2 / GDPR-aligned interfaces."
+    />
+    <meta name="author" content="Arslan Awan" />
+    <meta name="theme-color" content="#080a12" />
+    <link rel="canonical" href="https://arslanawan2.github.io/arslan-portfolio/" />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="Arslan Awan — Frontend Engineer & Angular Developer" />
+    <meta
+      property="og:description"
+      content="Angular engineer building integration-dense platforms across healthcare, fintech and enterprise AI governance."
+    />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Favicon: SVG monogram, with the .ico as the legacy fallback -->
+    <!--
+      ?v= busts the browser's favicon cache, which is held far more
+      stubbornly than ordinary assets. Bump it whenever the icon
+      artwork changes.
+    -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2" />
+    <link rel="alternate icon" type="image/x-icon" href="favicon.ico?v=2" />
+    <link rel="apple-touch-icon" href="favicon.svg?v=2" />
+    <link rel="manifest" href="site.webmanifest?v=2" />
+
+    <!--
+      Theme is resolved before first paint. Dark is the default:
+      only an explicit stored "light" switches the palette, so a
+      first-time visitor always lands on the dark treatment.
+    -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('aa-theme') === 'light' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', t);
+          document.documentElement.style.colorScheme = t;
+        } catch (e) {
+          /* storage blocked — the dark default in the markup stands */
+        }
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Arslan Awan",
+        "jobTitle": "Frontend Engineer",
+        "email": "mailto:marslan7514@gmail.com",
+        "telephone": "+92-303-3917514",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Islamabad",
+          "addressCountry": "PK"
+        },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "PMAS Arid Agriculture University, Rawalpindi"
+        },
+        "knowsAbout": ["Angular", "TypeScript", "RxJS", "Angular Signals", "Frontend Performance", "Accessibility"],
+        "sameAs": ["https://linkedin.com/in/arslan-awan-engineer", "https://github.com/arslanawan2"]
+      }
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>

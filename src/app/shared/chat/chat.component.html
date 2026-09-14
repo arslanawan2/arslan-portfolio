@@ -1,0 +1,99 @@
+<!-- Launcher -->
+<button
+  type="button"
+  class="launcher"
+  [class.is-open]="open()"
+  (click)="toggle()"
+  [attr.aria-expanded]="open()"
+  aria-controls="chat-panel"
+  [attr.aria-label]="open() ? 'Close chat' : 'Open chat with Arslan\'s assistant'"
+>
+  @if (open()) {
+    <app-icon name="close" [size]="20" />
+  } @else {
+    <app-icon name="chat" [size]="21" />
+    @if (hasUnread()) {
+      <span class="launcher__ping" aria-hidden="true"></span>
+    }
+  }
+</button>
+
+<!-- Panel -->
+<div
+  class="panel"
+  id="chat-panel"
+  [class.is-open]="open()"
+  role="dialog"
+  aria-label="Chat with Arslan's assistant"
+  [attr.inert]="open() ? null : ''"
+  (keydown)="onKeydown($event)"
+>
+  <header class="head">
+    <span class="head__avatar" aria-hidden="true">AA</span>
+    <div class="head__id">
+      <p class="head__name">Arslan's Assistant</p>
+      <p class="head__status"><span class="head__dot" aria-hidden="true"></span> Usually replies instantly</p>
+    </div>
+    <button type="button" class="head__close" (click)="close()" aria-label="Close chat">
+      <app-icon name="close" [size]="17" />
+    </button>
+  </header>
+
+  <!-- Transcript -->
+  <div class="log" #scroller role="log" aria-live="polite" aria-atomic="false">
+    @for (m of messages(); track m.id) {
+      <div class="msg" [class.msg--user]="m.from === 'user'">
+        @if (m.from === 'bot') {
+          <span class="msg__avatar" aria-hidden="true">AA</span>
+        }
+        <div class="msg__body">
+          <p class="msg__text">{{ m.text }}</p>
+          <span class="msg__time">{{ m.time }}</span>
+        </div>
+      </div>
+    }
+
+    @if (typing()) {
+      <div class="msg">
+        <span class="msg__avatar" aria-hidden="true">AA</span>
+        <div class="msg__body">
+          <p class="typing" aria-label="Assistant is typing">
+            <span></span><span></span><span></span>
+          </p>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Suggestions -->
+  @if (suggestions().length && !typing()) {
+    <div class="chips">
+      @for (s of suggestions(); track s) {
+        <button type="button" class="chip" (click)="send(s)">{{ s }}</button>
+      }
+    </div>
+  }
+
+  <!-- Composer -->
+  <form class="composer" (submit)="$event.preventDefault(); send()">
+    <label class="sr-only" for="chat-input">Ask a question</label>
+    <input
+      #field
+      id="chat-input"
+      type="text"
+      autocomplete="off"
+      placeholder="Ask about experience, skills…"
+      [ngModel]="draft()"
+      (ngModelChange)="draft.set($event)"
+      name="chatDraft"
+    />
+    <button type="submit" class="composer__send" [disabled]="!draft().trim() || typing()" aria-label="Send message">
+      <app-icon name="send" [size]="17" />
+    </button>
+  </form>
+
+  <p class="foot">
+    Static assistant — answers come from the CV.
+    <button type="button" class="foot__link" (click)="openHire()">Hire me</button>
+  </p>
+</div>

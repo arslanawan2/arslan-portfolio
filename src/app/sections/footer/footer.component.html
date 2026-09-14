@@ -1,0 +1,42 @@
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <span class="footer__mark" aria-hidden="true">AA</span>
+      <div>
+        <p class="footer__name">{{ profile.name }}</p>
+        <p class="footer__role">Frontend Engineer · {{ profile.location }}</p>
+      </div>
+    </div>
+
+    <nav class="footer__nav" aria-label="Footer">
+      @for (item of navItems; track item.id) {
+        <a [href]="'#' + item.id" (click)="$event.preventDefault(); go(item.id)">{{ item.label }}</a>
+      }
+    </nav>
+
+    <div class="footer__social">
+      <a
+        [href]="profile.linkedin"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="LinkedIn profile"
+      >
+        <app-icon name="linkedin" [size]="17" />
+      </a>
+      <a [href]="profile.github" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+        <app-icon name="github" [size]="17" />
+      </a>
+      <a [href]="'mailto:' + profile.email" aria-label="Send an email">
+        <app-icon name="mail" [size]="17" />
+      </a>
+    </div>
+  </div>
+
+  <div class="container footer__base">
+    <p>© {{ year }} {{ profile.name }}. Built with Angular, Signals and a lot of care.</p>
+    <button type="button" class="footer__top" (click)="go('home')" aria-label="Back to top">
+      Back to top
+      <app-icon name="arrow" [size]="14" />
+    </button>
+  </div>
+</footer>
